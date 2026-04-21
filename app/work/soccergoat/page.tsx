@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, ReactNode } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 function FadeIn({ children, delay = 0 }: { children: ReactNode; delay?: number }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -86,46 +87,31 @@ export default function SoccerGOAT() {
 
         {/* Hero visual */}
         <FadeIn delay={300}>
-          <div className="mt-14 w-full rounded-3xl overflow-hidden bg-[#1a4d2e] flex items-center justify-center" style={{ minHeight: "360px" }}>
-            <div className="text-center py-20 px-8">
-              <div className="inline-flex items-center gap-3 mb-6">
-                <div className="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center">
-                  <span className="text-white font-bold text-lg">SG</span>
-                </div>
-                <span className="text-white text-4xl font-bold tracking-tight">SoccerGOAT</span>
-              </div>
-              <p className="text-green-300 text-lg">Mobile App + Physical Display Device</p>
-              <div className="mt-8 flex justify-center gap-4 flex-wrap">
-                {["Live Scores", "Fan Community", "Personalization", "Cross-Play Device"].map((tag) => (
-                  <span key={tag} className="px-4 py-2 rounded-full border border-green-600 text-green-300 text-sm">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </div>
+          <div className="mt-14 w-full rounded-3xl bg-[#e8e8e8] flex items-center justify-center py-10 px-8">
+            <Image src="/soccergoat-cover-v3.png" alt="SoccerGOAT" width={900} height={500} className="w-full h-auto" priority />
           </div>
         </FadeIn>
       </section>
 
       {/* Overview */}
-      <section className="py-20 px-6 bg-neutral-50">
+      <section className="py-16 px-6 bg-[#2a3d2e]">
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
           <FadeIn>
             <div>
-              <p className="text-xs text-neutral-400 uppercase tracking-widest mb-2">Role</p>
-              <p className="text-neutral-700 font-medium">UX Designer<br />Product Designer</p>
+              <p className="text-xs text-green-300 uppercase tracking-widest mb-3">Role</p>
+              <p className="text-white/90 font-medium leading-relaxed">UX Designer<br />Product Designer</p>
             </div>
           </FadeIn>
           <FadeIn delay={80}>
             <div>
-              <p className="text-xs text-neutral-400 uppercase tracking-widest mb-2">Deliverables</p>
-              <p className="text-neutral-700 font-medium">Mobile App Design<br />Physical Device Design<br />UX Research</p>
+              <p className="text-xs text-green-300 uppercase tracking-widest mb-3">Deliverables</p>
+              <p className="text-white/90 font-medium leading-relaxed">Mobile App Design<br />Physical Device Design<br />UX Research</p>
             </div>
           </FadeIn>
           <FadeIn delay={160}>
             <div>
-              <p className="text-xs text-neutral-400 uppercase tracking-widest mb-2">Tools</p>
-              <p className="text-neutral-700 font-medium">Figma · Blender<br />User Interviews · Surveys</p>
+              <p className="text-xs text-green-300 uppercase tracking-widest mb-3">Tools</p>
+              <p className="text-white/90 font-medium leading-relaxed">Figma · Blender<br />User Interviews · Surveys</p>
             </div>
           </FadeIn>
         </div>
