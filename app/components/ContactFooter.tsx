@@ -282,7 +282,7 @@ export function ContactFooter() {
           <div className="footer-col">
             <p className={heading}>{t.page}</p>
             <a href="/" className={link}>{t.work}</a>
-            <a href="/work/art" className={link}>{t.playground}</a>
+            <a href="/playground" className={link}>{t.playground}</a>
             <a href="/about" className={link}>{t.about}</a>
           </div>
         </div>
