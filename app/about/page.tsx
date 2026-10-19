@@ -117,7 +117,7 @@ export default function About() {
   const t = content[lang];
 
   return (
-    <main className="min-h-screen bg-white text-neutral-900 font-sans cursor-none">
+    <main className="min-h-screen bg-[#F8F7F4] text-neutral-900 font-sans cursor-none">
 
       {/* Nav */}
       <Navbar nav={t.nav} />

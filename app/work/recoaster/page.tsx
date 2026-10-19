@@ -71,7 +71,7 @@ export default function RECoasterPage() {
   const t = content[lang];
 
   return (
-    <main className="min-h-screen bg-white text-neutral-900 cursor-none">
+    <main className="min-h-screen bg-[#F8F7F4] text-neutral-900 cursor-none">
       <Navbar nav={t.nav} />
 
       {/* Hero */}

@@ -172,7 +172,7 @@ export default function Home() {
   }, [lang]);
 
   return (
-    <main className="min-h-screen bg-white text-neutral-900 font-sans cursor-none">
+    <main className="min-h-screen bg-[#F8F7F4] text-neutral-900 font-sans cursor-none">
       <Navbar nav={t.nav} />
 
       {/* Hero */}
@@ -236,7 +236,7 @@ export default function Home() {
 
           {/* Right — art */}
           <FadeIn delay={200}>
-            <div className="flex justify-center items-center -mr-8 md:-mr-16">
+            <div className="flex justify-center items-center -mr-8 md:-mr-16 bg-[#F8F7F4]">
               <Image
                 src="/art/cover.png"
                 alt="Sifan Xue"

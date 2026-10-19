@@ -26,7 +26,7 @@ export function LangSwitcher() {
       {/* 触发按钮 */}
       <button
         onClick={() => setOpen(o => !o)}
-        className="flex items-center gap-1.5 rounded-full bg-white/70 px-3 py-1.5 hover:bg-white transition-all shadow-sm"
+        className="flex items-center gap-1.5 rounded-full px-3 py-2 hover:bg-[#F3F1EC] transition-all"
       >
         <div className="flex items-center text-neutral-500">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
@@ -74,7 +74,6 @@ interface NavbarProps {
 
 export function Navbar({ nav, activeHref }: NavbarProps) {
   const pathname = usePathname();
-  const { lang } = useLanguage();
   const [activeSection, setActiveSection] = useState<"home" | "work">("home");
 
   // Scroll-based section detection (only on homepage)
@@ -100,8 +99,11 @@ export function Navbar({ nav, activeHref }: NavbarProps) {
   ];
 
   return (
-    <nav className="fixed top-4 left-0 w-full z-50 flex justify-center px-4 pointer-events-none">
-      <div className="pointer-events-auto flex items-center gap-2 rounded-full bg-neutral-100/90 backdrop-blur-md shadow-[0_6px_24px_rgba(0,0,0,0.08)] border border-neutral-200/70 pl-2 pr-2 py-1.5">
+    <nav className="fixed top-6 left-0 w-full z-50 flex justify-center px-4 pointer-events-none">
+      <div className="pointer-events-auto flex items-center gap-2 rounded-full bg-white/75 backdrop-blur-md shadow-[0_8px_32px_rgba(0,0,0,0.07)] border border-black/5 px-3 py-2.5">
+        <Link href="/" aria-label="Home" className="flex items-center cursor-none">
+          <Image src="/logo-transparent.png" alt="Sifan" width={112} height={112} className="object-contain h-[112px] w-[112px] shrink-0 -my-10 -ml-7 -mr-6" />
+        </Link>
         {links.map(({ href, label, key }) => {
           let isActive = false;
           if (key === "about") {
@@ -114,9 +116,9 @@ export function Navbar({ nav, activeHref }: NavbarProps) {
               key={href}
               href={href}
               style={{ fontFamily: "var(--font-geist-mono)" }}
-              className={`transition-colors cursor-none px-3.5 py-1.5 rounded-full text-[12px] font-medium tracking-wider uppercase ${
+              className={`transition-colors cursor-none px-5 py-2 rounded-full text-[12px] font-medium tracking-wider uppercase ${
                 isActive
-                  ? "bg-white text-neutral-900 shadow-sm"
+                  ? "bg-[#F3F1EC] text-neutral-900"
                   : "text-neutral-500 hover:text-neutral-900"
               }`}
             >
@@ -126,15 +128,6 @@ export function Navbar({ nav, activeHref }: NavbarProps) {
         })}
         <LangSwitcher />
       </div>
-      <Link href="/" className="pointer-events-auto absolute left-6 top-4 hidden md:flex items-center cursor-none h-[44px]">
-        <Image src="/logo-transparent.png" alt="Sifan" width={170} height={170} className="object-contain h-[170px] w-[170px] shrink-0 -my-16 -ml-12 -mr-6" />
-        <span
-          style={{ fontFamily: "var(--font-cormorant)" }}
-          className="text-2xl font-medium tracking-wide text-neutral-800 leading-none"
-        >
-          {lang === "zh" ? "薛斯凡" : "Sifan Xue"}
-        </span>
-      </Link>
     </nav>
   );
 }
