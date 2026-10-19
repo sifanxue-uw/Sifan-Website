@@ -2,53 +2,91 @@
 
 import { useEffect, useRef } from "react";
 
+function pentagon(cx: number, cy: number, r: number, rot: number) {
+  return Array.from({ length: 5 }, (_, i) => {
+    const a = rot + (i * 2 * Math.PI) / 5;
+    return `${(cx + r * Math.cos(a)).toFixed(2)},${(cy + r * Math.sin(a)).toFixed(2)}`;
+  }).join(" ");
+}
+
+const TOP = -Math.PI / 2;
+const OUTER = Array.from({ length: 5 }, (_, i) => {
+  const a = TOP + (i * 2 * Math.PI) / 5;
+  return { cx: 11.2 * Math.cos(a), cy: 11.2 * Math.sin(a), a };
+});
+
 export function Cursor() {
-  const dotRef = useRef<HTMLDivElement>(null);
-  const ringRef = useRef<HTMLDivElement>(null);
+  const posRef = useRef<HTMLDivElement>(null);
+  const ballRef = useRef<HTMLDivElement>(null);
   const rafRef = useRef<number>(0);
-  const pos = useRef({ mouseX: -200, mouseY: -200, ringX: -200, ringY: -200 });
+  const state = useRef({ mx: -200, my: -200, x: -200, y: -200, angle: 0, scale: 1, target: 1, press: false });
 
   useEffect(() => {
+    const s = state.current;
     const onMove = (e: MouseEvent) => {
-      pos.current.mouseX = e.clientX;
-      pos.current.mouseY = e.clientY;
-      if (dotRef.current) {
-        dotRef.current.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-      }
+      s.mx = e.clientX;
+      s.my = e.clientY;
+      const el = e.target as Element | null;
+      s.target = el && el.closest("a, button, [role=button], input, textarea") ? 1.6 : 1;
     };
+    const onDown = () => { s.press = true; };
+    const onUp = () => { s.press = false; };
 
     const animate = () => {
-      const p = pos.current;
-      p.ringX += (p.mouseX - p.ringX) * 0.12;
-      p.ringY += (p.mouseY - p.ringY) * 0.12;
-      if (ringRef.current) {
-        ringRef.current.style.transform = `translate(${p.ringX}px, ${p.ringY}px)`;
-      }
+      const dx = (s.mx - s.x) * 0.3;
+      const dy = (s.my - s.y) * 0.3;
+      s.x += dx;
+      s.y += dy;
+      s.angle += dx * 3.2 + dy * 0.6;
+      const goal = s.press ? s.target * 0.8 : s.target;
+      s.scale += (goal - s.scale) * 0.2;
+      if (posRef.current) posRef.current.style.transform = `translate(${s.x}px, ${s.y}px)`;
+      if (ballRef.current) ballRef.current.style.transform = `rotate(${s.angle}deg) scale(${s.scale})`;
       rafRef.current = requestAnimationFrame(animate);
     };
 
     window.addEventListener("mousemove", onMove);
+    window.addEventListener("mousedown", onDown);
+    window.addEventListener("mouseup", onUp);
     rafRef.current = requestAnimationFrame(animate);
-
     return () => {
       window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mousedown", onDown);
+      window.removeEventListener("mouseup", onUp);
       cancelAnimationFrame(rafRef.current);
     };
   }, []);
 
   return (
-    <>
-      <div
-        ref={dotRef}
-        className="pointer-events-none fixed top-0 left-0 z-[200] w-1.5 h-1.5 bg-neutral-900 rounded-full -translate-x-1/2 -translate-y-1/2"
-        style={{ willChange: "transform" }}
-      />
-      <div
-        ref={ringRef}
-        className="pointer-events-none fixed top-0 left-0 z-[199] w-8 h-8 border border-neutral-400 rounded-full -translate-x-1/2 -translate-y-1/2"
-        style={{ willChange: "transform" }}
-      />
-    </>
+    <div
+      ref={posRef}
+      className="pointer-events-none fixed top-0 left-0 z-[200]"
+      style={{ willChange: "transform" }}
+    >
+      <div ref={ballRef} className="-translate-x-1/2 -translate-y-1/2" style={{ marginLeft: -14, marginTop: -14, width: 28, height: 28, willChange: "transform" }}>
+        <svg viewBox="-13 -13 26 26" width="28" height="28" style={{ display: "block", filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.25))" }}>
+          <defs>
+            <clipPath id="ball-clip"><circle r="12" /></clipPath>
+          </defs>
+          <circle r="12" fill="#fff" />
+          <g clipPath="url(#ball-clip)" stroke="#1C1917" strokeWidth="0.8" strokeLinejoin="round">
+            <polygon points={pentagon(0, 0, 4.6, TOP)} fill="#1C1917" />
+            {OUTER.map((o, i) => {
+              const ia = o.a + Math.PI;
+              const px = 4.6 * Math.cos(o.a), py = 4.6 * Math.sin(o.a);
+              const qx = o.cx + 3.6 * Math.cos(ia), qy = o.cy + 3.6 * Math.sin(ia);
+              return (
+                <g key={i}>
+                  <line x1={px} y1={py} x2={qx} y2={qy} fill="none" />
+                  <polygon points={pentagon(o.cx, o.cy, 4.6, o.a)} fill="#1C1917" />
+                </g>
+              );
+            })}
+          </g>
+          <circle r="12" fill="none" stroke="#1C1917" strokeWidth="1" />
+        </svg>
+      </div>
+    </div>
   );
 }
 
