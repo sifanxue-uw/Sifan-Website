@@ -43,7 +43,7 @@ export function Navbar(_props: NavbarProps) {
   const { lang } = useLanguage();
   const t = LABELS[lang === "zh" ? "zh" : "en"];
 
-  const playgroundPaths = ["/playground", "/work/art", "/work/vozy", "/work/recoaster"];
+  const playgroundPaths = ["/playground", "/work/art", "/work/vozy", "/work/recoaster", "/work/peticx", "/work/maskoff"];
   const inPlayground = playgroundPaths.includes(pathname);
   const links = [
     { href: "/", label: t.work, active: pathname === "/" || (pathname.startsWith("/work/") && !inPlayground) },

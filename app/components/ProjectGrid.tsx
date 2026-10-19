@@ -27,10 +27,10 @@ const projects: Project[] = [
   { group: "work", href: "/work/artflow", img: "/artflow/cover.png", title: "ArtFlow", tag: "UX Research · Usability Testing · QA", fit: "cover", bg: "bg-neutral-100",
     en: "Systematic usability testing for Tencent Games’ internal art asset platform — 100+ issues identified, 95% fix rate achieved.",
     zh: "腾讯游戏内部美术资源平台的系统性可用性测试——识别 100+ 问题，95% 修复率。" },
-  { group: "work", href: "/work/peticx", img: "/peticx/px缩略图.png", title: "PeticX", tag: "Product Design · UX Research · Pet Care", fit: "contain", bg: "bg-neutral-100",
+  { group: "playground", href: "/work/peticx", img: "/peticx/px缩略图.png", title: "PeticX", tag: "Product Design · UX Research · Pet Care", fit: "contain", bg: "bg-neutral-100",
     en: "A pet care product designed through end-to-end user research and iterative prototyping.",
     zh: "通过端到端用户研究与迭代原型设计的宠物护理产品。" },
-  { group: "work", href: "/work/maskoff", img: "/maskoff/Maskoff cover.png", title: "Maskoff", tag: "Brand Design · Product Design", fit: "cover", bg: "bg-neutral-100",
+  { group: "playground", href: "/work/maskoff", img: "/maskoff/Maskoff cover.png", title: "Maskoff", tag: "Brand Design · Product Design", fit: "cover", bg: "bg-neutral-100",
     en: "A face mask brand exploring identity and the tension between concealment and visibility.",
     zh: "探索身份认同与隐藏和显露之间张力的口罩品牌设计。" },
   { group: "playground", href: "/work/art", img: "/art/cover.png", title: "My Art", tag: "Fine Art · Acrylic · Watercolour", fit: "contain", bg: "bg-white",
@@ -44,29 +44,45 @@ const projects: Project[] = [
     zh: "以咖啡渣为原料，结合木工与树脂工艺制作的可持续杯垫。" },
 ];
 
+function Tile({ pr, lang }: { pr: Project; lang: string }) {
+  return (
+    <a href={pr.href} className="group block cursor-none">
+      <div className={"relative w-full overflow-hidden " + (pr.ratio ?? "aspect-[4/3]") + " " + pr.bg}>
+        <Image
+          src={pr.img}
+          alt={pr.title}
+          fill
+          className={(pr.fit === "contain" ? "object-contain p-10" : pr.fit === "flush" ? "object-contain" : "object-cover") + " transition-transform duration-500 group-hover:scale-[1.03]"}
+          unoptimized
+        />
+      </div>
+      <p style={{ fontFamily: "var(--font-geist-mono)" }} className="mt-4 text-[11px] tracking-wider uppercase text-neutral-400">{pr.tag}</p>
+      <h3 style={{ fontFamily: "var(--font-cormorant)" }} className="mt-1 text-2xl font-medium text-neutral-800">{pr.title}</h3>
+      <p className="mt-1 text-sm leading-relaxed text-neutral-500">{lang === "zh" ? pr.zh : pr.en}</p>
+    </a>
+  );
+}
+
 export function ProjectGrid({ group }: { group: "work" | "playground" }) {
   const { lang } = useLanguage();
   const items = projects.filter((p) => p.group === group);
+  const columns = [items.filter((_, i) => i % 2 === 0), items.filter((_, i) => i % 2 === 1)];
 
   return (
-    <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-16 items-start">
-      {items.map((pr, i) => (
-        <FadeIn key={pr.href} delay={(i % 2) * 100}>
-          <a href={pr.href} className="group block cursor-none">
-            <div className={"relative w-full overflow-hidden " + (pr.ratio ?? "aspect-[4/3]") + " " + pr.bg}>
-              <Image
-                src={pr.img}
-                alt={pr.title}
-                fill
-                className={(pr.fit === "contain" ? "object-contain p-10" : pr.fit === "flush" ? "object-contain" : "object-cover") + " transition-transform duration-500 group-hover:scale-[1.03]"}
-                unoptimized
-              />
-            </div>
-            <p style={{ fontFamily: "var(--font-geist-mono)" }} className="mt-4 text-[11px] tracking-wider uppercase text-neutral-400">{pr.tag}</p>
-            <h3 style={{ fontFamily: "var(--font-cormorant)" }} className="mt-1 text-2xl font-medium text-neutral-800">{pr.title}</h3>
-            <p className="mt-1 text-sm leading-relaxed text-neutral-500">{lang === "zh" ? pr.zh : pr.en}</p>
-          </a>
-        </FadeIn>
+    <div className="max-w-5xl mx-auto flex flex-col md:flex-row md:items-start gap-10 md:gap-6">
+      {columns.map((col, ci) => (
+        <div key={ci} className="contents md:flex md:flex-col md:flex-1 md:gap-10">
+          {col.map((pr) => {
+            const index = items.indexOf(pr);
+            return (
+              <div key={pr.href} style={{ order: index }}>
+                <FadeIn delay={(index % 2) * 100}>
+                  <Tile pr={pr} lang={lang} />
+                </FadeIn>
+              </div>
+            );
+          })}
+        </div>
       ))}
     </div>
   );
