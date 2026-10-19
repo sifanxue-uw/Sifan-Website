@@ -3,18 +3,20 @@
 import { useEffect, useRef } from "react";
 import { useLanguage } from "@/app/context/language";
 
-function pentagon(cx: number, cy: number, r: number, rot: number) {
+function pentagon(r: number, rot: number) {
   return Array.from({ length: 5 }, (_, i) => {
     const a = rot + (i * 2 * Math.PI) / 5;
-    return `${(cx + r * Math.cos(a)).toFixed(2)},${(cy + r * Math.sin(a)).toFixed(2)}`;
+    return `${(r * Math.cos(a)).toFixed(2)},${(r * Math.sin(a)).toFixed(2)}`;
   }).join(" ");
 }
 
 const TOP = -Math.PI / 2;
-const OUTER = Array.from({ length: 5 }, (_, i) => {
+const SPOKES = Array.from({ length: 5 }, (_, i) => {
   const a = TOP + (i * 2 * Math.PI) / 5;
-  return { cx: 11.2 * Math.cos(a), cy: 11.2 * Math.sin(a), a };
+  return { x1: 3.6 * Math.cos(a), y1: 3.6 * Math.sin(a), x2: 10 * Math.cos(a), y2: 10 * Math.sin(a) };
 });
+
+const SIZE = 20;
 
 export function Cursor() {
   const { lang } = useLanguage();
@@ -22,18 +24,14 @@ export function Cursor() {
   const posRef = useRef<HTMLDivElement>(null);
   const ballRef = useRef<HTMLDivElement>(null);
   const rafRef = useRef<number>(0);
-  const state = useRef({ mx: -200, my: -200, x: -200, y: -200, angle: 0, scale: 1, target: 1, press: false });
+  const state = useRef({ mx: -200, my: -200, x: -200, y: -200, angle: 0 });
 
   useEffect(() => {
     const s = state.current;
     const onMove = (e: MouseEvent) => {
       s.mx = e.clientX;
       s.my = e.clientY;
-      const el = e.target as Element | null;
-      s.target = el && el.closest("a, button, [role=button], input, textarea") ? 1.6 : 1;
     };
-    const onDown = () => { s.press = true; };
-    const onUp = () => { s.press = false; };
 
     const animate = () => {
       const dx = (s.mx - s.x) * 0.3;
@@ -41,21 +39,15 @@ export function Cursor() {
       s.x += dx;
       s.y += dy;
       s.angle += dx * 3.2 + dy * 0.6;
-      const goal = s.press ? s.target * 0.8 : s.target;
-      s.scale += (goal - s.scale) * 0.2;
       if (posRef.current) posRef.current.style.transform = `translate(${s.x}px, ${s.y}px)`;
-      if (ballRef.current) ballRef.current.style.transform = `rotate(${s.angle}deg) scale(${s.scale})`;
+      if (ballRef.current) ballRef.current.style.transform = `rotate(${s.angle}deg)`;
       rafRef.current = requestAnimationFrame(animate);
     };
 
     window.addEventListener("mousemove", onMove);
-    window.addEventListener("mousedown", onDown);
-    window.addEventListener("mouseup", onUp);
     rafRef.current = requestAnimationFrame(animate);
     return () => {
       window.removeEventListener("mousemove", onMove);
-      window.removeEventListener("mousedown", onDown);
-      window.removeEventListener("mouseup", onUp);
       cancelAnimationFrame(rafRef.current);
     };
   }, []);
@@ -64,52 +56,26 @@ export function Cursor() {
     <div
       ref={posRef}
       className="pointer-events-none fixed top-0 left-0 z-[200]"
-      style={{ willChange: "transform" }}
+      style={{ willChange: "transform", mixBlendMode: cuju ? "normal" : "difference" }}
     >
-      <div ref={ballRef} className="-translate-x-1/2 -translate-y-1/2" style={{ marginLeft: -14, marginTop: -14, width: 28, height: 28, willChange: "transform" }}>
-        {cuju ? (
-          <svg viewBox="-13 -13 26 26" width="28" height="28" style={{ display: "block", filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.3))" }}>
-            <defs>
-              <radialGradient id="cuju-grad" cx="35%" cy="30%" r="80%">
-                <stop offset="0%" stopColor="#E3B873" />
-                <stop offset="100%" stopColor="#B07A3A" />
-              </radialGradient>
-              <clipPath id="cuju-clip"><circle r="12" /></clipPath>
-            </defs>
-            <circle r="12" fill="url(#cuju-grad)" />
-            <g clipPath="url(#cuju-clip)" fill="none" stroke="#6B3F14" strokeWidth="0.9">
-              {[0, 60, 120].map((deg) => (
-                <ellipse key={deg} rx="12" ry="5.2" transform={`rotate(${deg})`} />
-              ))}
-              {[0, 60, 120].map((deg) => (
-                <ellipse key={"s" + deg} rx="12" ry="5.2" transform={`rotate(${deg})`} stroke="#F4DDB0" strokeWidth="0.5" strokeDasharray="1 1.2" />
+      <div ref={ballRef} style={{ marginLeft: -SIZE / 2, marginTop: -SIZE / 2, width: SIZE, height: SIZE, willChange: "transform" }}>
+        <svg viewBox="-12 -12 24 24" width={SIZE} height={SIZE} style={{ display: "block" }}>
+          {cuju ? (
+            <g fill="none" stroke="#7A4A1C" strokeWidth="1">
+              <circle r="11" fill="#D9A961" stroke="none" />
+              <ellipse rx="11" ry="4.5" />
+              <ellipse rx="11" ry="4.5" transform="rotate(90)" />
+            </g>
+          ) : (
+            <g stroke="#fff" strokeWidth="1.1" strokeLinecap="round" fill="none">
+              <circle r="11" />
+              <polygon points={pentagon(3.6, TOP)} fill="#fff" stroke="none" />
+              {SPOKES.map((p, i) => (
+                <line key={i} x1={p.x1} y1={p.y1} x2={p.x2} y2={p.y2} />
               ))}
             </g>
-            <circle r="12" fill="none" stroke="#6B3F14" strokeWidth="1" />
-          </svg>
-        ) : (
-                <svg viewBox="-13 -13 26 26" width="28" height="28" style={{ display: "block", filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.25))" }}>
-          <defs>
-            <clipPath id="ball-clip"><circle r="12" /></clipPath>
-          </defs>
-          <circle r="12" fill="#fff" />
-          <g clipPath="url(#ball-clip)" stroke="#1C1917" strokeWidth="0.8" strokeLinejoin="round">
-            <polygon points={pentagon(0, 0, 4.6, TOP)} fill="#1C1917" />
-            {OUTER.map((o, i) => {
-              const ia = o.a + Math.PI;
-              const px = 4.6 * Math.cos(o.a), py = 4.6 * Math.sin(o.a);
-              const qx = o.cx + 3.6 * Math.cos(ia), qy = o.cy + 3.6 * Math.sin(ia);
-              return (
-                <g key={i}>
-                  <line x1={px} y1={py} x2={qx} y2={qy} fill="none" />
-                  <polygon points={pentagon(o.cx, o.cy, 4.6, o.a)} fill="#1C1917" />
-                </g>
-              );
-            })}
-          </g>
-          <circle r="12" fill="none" stroke="#1C1917" strokeWidth="1" />
+          )}
         </svg>
-        )}
       </div>
     </div>
   );
