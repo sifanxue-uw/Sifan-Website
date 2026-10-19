@@ -227,14 +227,22 @@ export default function Home() {
 
           {/* Right — colour block */}
           <FadeIn delay={200}>
-            <div className="flex justify-center md:justify-end">
+            <div className="flex justify-center items-center w-full">
               <div
-                className="relative w-full max-w-[380px] aspect-[4/5] flex items-end justify-end p-7"
-                style={{ backgroundColor: "#C8321E" }}
+                className="relative w-full max-w-[270px] aspect-[4/5] flex items-end justify-end p-5 overflow-hidden"
+                style={{
+                  background:
+                    "radial-gradient(120% 70% at 50% 0%, #FF6A3D 0%, rgba(255,106,61,0) 60%), linear-gradient(180deg, #E5472A 0%, #C8321E 45%, #6E170F 100%)",
+                }}
               >
+                <div
+                  aria-hidden
+                  className="absolute inset-0 pointer-events-none"
+                  style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")", backgroundSize: "160px 160px", opacity: 0.22, mixBlendMode: "overlay" }}
+                />
                 <p
-                  className="text-right font-extrabold uppercase leading-[0.9] tracking-tight text-[#1C1917] select-none"
-                  style={{ fontFamily: "var(--font-geist-sans)", fontSize: "clamp(40px, 5.2vw, 60px)" }}
+                  className="relative text-right font-extrabold uppercase leading-[0.9] tracking-tight text-[#1C1917] select-none"
+                  style={{ fontFamily: "var(--font-geist-sans)", fontSize: "clamp(28px, 3.4vw, 42px)" }}
                 >
                   Sifan<br />Xue
                 </p>
