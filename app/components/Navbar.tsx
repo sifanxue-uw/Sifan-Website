@@ -26,7 +26,7 @@ export function LangSwitcher() {
       {/* 触发按钮 */}
       <button
         onClick={() => setOpen(o => !o)}
-        className="flex items-center gap-1.5 rounded-full bg-white/70 px-3 py-1.5 hover:bg-white transition-all"
+        className="flex items-center gap-1.5 rounded-full bg-white/70 px-3 py-1.5 hover:bg-white transition-all shadow-sm"
       >
         <div className="flex items-center text-neutral-500">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
@@ -101,10 +101,7 @@ export function Navbar({ nav, activeHref }: NavbarProps) {
 
   return (
     <nav className="fixed top-4 left-0 w-full z-50 flex justify-center px-4 pointer-events-none">
-      <div className="pointer-events-auto flex items-center gap-2 rounded-full bg-neutral-200/80 backdrop-blur-md shadow-[0_8px_30px_rgba(0,0,0,0.12)] border border-white/60 pl-4 pr-2 py-1.5">
-        <Link href="/" aria-label="Home" className="flex items-center cursor-none mr-1">
-          <Image src="/logo-transparent.png" alt="Sifan" width={72} height={72} className="object-contain h-[72px] w-[72px] shrink-0 -my-6 -ml-3 -mr-4" />
-        </Link>
+      <div className="pointer-events-auto flex items-center gap-2 rounded-full bg-neutral-100/90 backdrop-blur-md shadow-[0_6px_24px_rgba(0,0,0,0.08)] border border-neutral-200/70 pl-2 pr-2 py-1.5">
         {links.map(({ href, label, key }) => {
           let isActive = false;
           if (key === "about") {
@@ -129,6 +126,15 @@ export function Navbar({ nav, activeHref }: NavbarProps) {
         })}
         <LangSwitcher />
       </div>
+      <Link href="/" className="pointer-events-auto absolute right-6 top-4 hidden md:flex items-center cursor-none h-[44px]">
+        <Image src="/logo-transparent.png" alt="Sifan" width={72} height={72} className="object-contain h-[72px] w-[72px] shrink-0 -my-4 -mr-2" />
+        <span
+          style={{ fontFamily: "var(--font-cormorant)" }}
+          className="text-xl font-medium tracking-wide text-neutral-800 leading-none"
+        >
+          {lang === "zh" ? "薛斯凡" : "Sifan Xue"}
+        </span>
+      </Link>
     </nav>
   );
 }
