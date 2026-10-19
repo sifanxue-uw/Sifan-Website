@@ -105,16 +105,65 @@ const TUFTS = [
   { x: "96%", y: "40%", g: "..", c: "#E8768A" },
 ];
 
+const BURST = Array.from({ length: 24 }, (_, i) => {
+  const a = (i * Math.PI) / 12 - Math.PI / 2;
+  const r = i % 2 === 0 ? 48 : 30;
+  return `${(50 + r * Math.cos(a)).toFixed(2)},${(50 + r * Math.sin(a)).toFixed(2)}`;
+}).join(" ");
+
+const KICKOFF_X = "72%";
+
 function Pitch() {
+  const [hot, setHot] = useState(false);
+
   return (
     <>
-      <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" aria-hidden>
-        <g fill="none" stroke="rgba(255,255,255,0.09)" strokeWidth="2">
-          <line x1="860" y1="0" x2="860" y2="600" />
-          <circle cx="860" cy="300" r="150" />
-        </g>
-        <circle cx="860" cy="300" r="5" fill="rgba(255,255,255,0.12)" />
-      </svg>
+      <div
+        aria-hidden
+        className="absolute top-0 bottom-0 w-px pointer-events-none"
+        style={{ left: KICKOFF_X, backgroundColor: "rgba(255,255,255,0.09)" }}
+      />
+      <div
+        aria-hidden
+        className="absolute rounded-full pointer-events-none"
+        style={{ left: KICKOFF_X, top: "50%", width: 300, height: 300, transform: "translate(-50%, -50%)", border: "2px solid rgba(255,255,255,0.09)" }}
+      />
+      <div
+        aria-hidden
+        onMouseEnter={() => setHot(true)}
+        onMouseLeave={() => setHot(false)}
+        className="absolute z-20 hidden md:flex items-center justify-center"
+        style={{ left: KICKOFF_X, top: "50%", width: 56, height: 56, transform: "translate(-50%, -50%)" }}
+      >
+        <span
+          className="block rounded-full transition-all duration-300"
+          style={{
+            width: hot ? 14 : 10,
+            height: hot ? 14 : 10,
+            backgroundColor: hot ? "#E5202E" : "rgba(255,255,255,0.14)",
+            boxShadow: hot ? "0 0 0 6px rgba(229,32,46,0.18)" : "none",
+          }}
+        />
+      </div>
+
+      <div
+        aria-hidden
+        className="absolute bottom-0 pointer-events-none flex flex-col items-center transition-all duration-500 ease-out"
+        style={{
+          left: KICKOFF_X,
+          transform: `translate(-50%, ${hot ? "0%" : "110%"})`,
+          opacity: hot ? 1 : 0,
+        }}
+      >
+        <svg viewBox="0 0 100 100" width="76" height="76" style={{ display: "block", animation: hot ? "kickoff-spin 12s linear infinite" : "none" }}>
+          <polygon points={BURST} fill="#E5202E" />
+          <circle cx="50" cy="50" r="13" fill="#1C1917" />
+          <circle cx="50" cy="50" r="5" fill="#E5202E" />
+        </svg>
+        <p style={{ fontFamily: "var(--font-geist-mono)" }} className="mt-1 mb-3 text-[10px] tracking-[0.3em] uppercase text-[#E5202E]">Kick off</p>
+        <style>{`@keyframes kickoff-spin { to { transform: rotate(360deg); } }`}</style>
+      </div>
+
       {TUFTS.map((t, i) => (
         <pre
           key={i}
