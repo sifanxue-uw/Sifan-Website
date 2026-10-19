@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, ReactNode } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useLanguage, type LangKey } from "@/app/context/language";
@@ -8,6 +8,7 @@ import { Navbar } from "@/app/components/Navbar";
 import { ContactFooter } from "@/app/components/ContactFooter";
 import { FadeIn } from "@/app/components/FadeIn";
 import { ProjectGrid } from "@/app/components/ProjectGrid";
+import { FocusIntro } from "@/app/components/FocusIntro";
 
 const content: Record<LangKey, {
   nav: { home: string; work: string; about: string };
@@ -127,26 +128,7 @@ export default function Home() {
   const { lang } = useLanguage();
   const t = content[lang];
 
-  const [wordIndex, setWordIndex] = useState(0);
   const [flipped, setFlipped] = useState(false);
-  const [visible, setVisible] = useState(true);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setVisible(false);
-      setTimeout(() => {
-        setWordIndex(i => (i + 1) % t.hero.words.length);
-        setVisible(true);
-      }, 350);
-    }, 2200);
-    return () => clearInterval(interval);
-  }, [t.hero.words.length]);
-
-  // Reset word index on language change
-  useEffect(() => {
-    setWordIndex(0);
-    setVisible(true);
-  }, [lang]);
 
   return (
     <main className="min-h-screen bg-[#F8F7F4] text-neutral-900 font-sans cursor-none">
@@ -156,43 +138,11 @@ export default function Home() {
       <section className="min-h-screen flex items-start px-6">
         <div className="max-w-5xl mx-auto w-full flex flex-col-reverse items-center text-center gap-8 pt-28 pb-16">
 
-          {/* Left — text */}
+          {/* Intro statement */}
           <div>
-            <FadeIn delay={60}>
-              <h1
-                style={{ fontFamily: "var(--font-cormorant)" }}
-                className="text-6xl lg:text-7xl font-medium leading-tight mb-2 tracking-tight"
-              >
-                {t.hero.greeting}
-              </h1>
-            </FadeIn>
-
             <FadeIn delay={120}>
-              <h2
-                style={{ fontFamily: "var(--font-cormorant)" }}
-                className="text-6xl lg:text-7xl font-medium leading-tight mb-10 tracking-tight"
-              >
-                {t.hero.loveTo}{" "}
-                <span
-                  style={{
-                    color: "#D4785A",
-                    display: "inline-block",
-                    opacity: visible ? 1 : 0,
-                    transform: visible ? "translateY(0)" : "translateY(8px)",
-                    transition: "opacity 0.35s ease, transform 0.35s ease",
-                  }}
-                >
-                  {t.hero.words[wordIndex]}
-                </span>
-              </h2>
+              <FocusIntro />
             </FadeIn>
-
-            <FadeIn delay={240}>
-              <p className="text-neutral-500 text-base leading-relaxed max-w-md mx-auto mb-4">
-                {t.hero.sub}
-              </p>
-            </FadeIn>
-
           </div>
 
           {/* Right — flip card: colour block / logo */}
