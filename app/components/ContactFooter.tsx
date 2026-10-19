@@ -105,12 +105,6 @@ const TUFTS = [
   { x: "96%", y: "40%", g: "..", c: "#E8768A" },
 ];
 
-const BURST = Array.from({ length: 24 }, (_, i) => {
-  const a = (i * Math.PI) / 12 - Math.PI / 2;
-  const r = i % 2 === 0 ? 48 : 30;
-  return `${(50 + r * Math.cos(a)).toFixed(2)},${(50 + r * Math.sin(a)).toFixed(2)}`;
-}).join(" ");
-
 const KICKOFF_X = "72%";
 
 function Pitch() {
@@ -155,13 +149,8 @@ function Pitch() {
           opacity: hot ? 1 : 0,
         }}
       >
-        <svg viewBox="0 0 100 100" width="76" height="76" style={{ display: "block", animation: hot ? "kickoff-spin 12s linear infinite" : "none" }}>
-          <polygon points={BURST} fill="#E5202E" />
-          <circle cx="50" cy="50" r="13" fill="#1C1917" />
-          <circle cx="50" cy="50" r="5" fill="#E5202E" />
-        </svg>
-        <p style={{ fontFamily: "var(--font-geist-mono)" }} className="mt-1 mb-3 text-[10px] tracking-[0.3em] uppercase text-[#E5202E]">Kick off</p>
-        <style>{`@keyframes kickoff-spin { to { transform: rotate(360deg); } }`}</style>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/mu-logo.png" alt="" width={104} height={104} className="block rounded-t-xl" />
       </div>
 
       {TUFTS.map((t, i) => (
