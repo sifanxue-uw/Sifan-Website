@@ -182,7 +182,7 @@ export default function Home() {
 
       {/* Hero */}
       <section className="min-h-screen flex items-start px-6">
-        <div className="max-w-5xl mx-auto w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-start pt-40">
+        <div className="max-w-5xl mx-auto w-full flex flex-col-reverse items-center text-center gap-8 pt-28 pb-16">
 
           {/* Left — text */}
           <div>
@@ -216,7 +216,7 @@ export default function Home() {
             </FadeIn>
 
             <FadeIn delay={240}>
-              <p className="text-neutral-500 text-base leading-relaxed max-w-md mb-10">
+              <p className="text-neutral-500 text-base leading-relaxed max-w-md mx-auto mb-4">
                 {t.hero.sub}
               </p>
             </FadeIn>
@@ -233,7 +233,7 @@ export default function Home() {
                 onMouseEnter={() => setFlipped(true)}
                 onMouseLeave={() => setFlipped(false)}
                 onClick={() => setFlipped((v) => !v)}
-                className="relative w-full max-w-[270px] aspect-[4/5] cursor-none"
+                className="relative w-[240px] aspect-[4/5] cursor-none"
                 style={{ perspective: 1200 }}
               >
                 <div
