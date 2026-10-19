@@ -63,7 +63,7 @@ export function Navbar({ nav, activeHref }: NavbarProps) {
 
   return (
     <nav className="fixed top-6 left-0 w-full z-50 flex justify-center px-4 pointer-events-none">
-      <div className="pointer-events-auto flex items-center gap-2 rounded-full bg-white/75 backdrop-blur-md shadow-[0_8px_32px_rgba(0,0,0,0.07)] border border-black/5 px-3 py-2.5">
+      <div className="pointer-events-auto flex items-center gap-2 px-3 py-2.5">
         {links.map(({ href, label, key }) => {
           let isActive = false;
           if (key === "about") {
@@ -76,7 +76,7 @@ export function Navbar({ nav, activeHref }: NavbarProps) {
               key={href}
               href={href}
               style={{ fontFamily: "var(--font-geist-mono)" }}
-              className={`transition-colors cursor-none px-5 py-2 rounded-full text-[12px] font-medium tracking-wider uppercase ${
+              className={`transition-colors cursor-none w-[88px] py-2 text-center rounded-full text-[12px] font-medium tracking-wider uppercase ${
                 isActive
                   ? "bg-[#F3F1EC] text-neutral-900"
                   : "text-neutral-500 hover:text-neutral-900"

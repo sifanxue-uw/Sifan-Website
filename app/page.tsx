@@ -151,8 +151,8 @@ export default function Home() {
       <Navbar nav={t.nav} />
 
       {/* Hero */}
-      <section className="min-h-screen flex items-center px-6">
-        <div className="max-w-5xl mx-auto w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center pt-20">
+      <section className="min-h-screen flex items-start px-6">
+        <div className="max-w-5xl mx-auto w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-start pt-40">
 
           {/* Left — text */}
           <div>
