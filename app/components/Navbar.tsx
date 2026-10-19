@@ -126,11 +126,11 @@ export function Navbar({ nav, activeHref }: NavbarProps) {
         })}
         <LangSwitcher />
       </div>
-      <Link href="/" className="pointer-events-auto absolute right-6 top-4 hidden md:flex items-center cursor-none h-[44px]">
-        <Image src="/logo-transparent.png" alt="Sifan" width={72} height={72} className="object-contain h-[72px] w-[72px] shrink-0 -my-4 -mr-2" />
+      <Link href="/" className="pointer-events-auto absolute left-6 top-4 hidden md:flex items-center cursor-none h-[44px]">
+        <Image src="/logo-transparent.png" alt="Sifan" width={170} height={170} className="object-contain h-[170px] w-[170px] shrink-0 -my-16 -ml-12 -mr-6" />
         <span
           style={{ fontFamily: "var(--font-cormorant)" }}
-          className="text-xl font-medium tracking-wide text-neutral-800 leading-none"
+          className="text-2xl font-medium tracking-wide text-neutral-800 leading-none"
         >
           {lang === "zh" ? "薛斯凡" : "Sifan Xue"}
         </span>
