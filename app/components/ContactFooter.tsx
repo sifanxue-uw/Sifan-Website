@@ -92,6 +92,19 @@ function CopyItem({ value, label, copiedLabel }: { value: string; label: string;
   );
 }
 
+const TUFTS = [
+  { x: "6%", y: "64%", g: "(*)\n>\\", c: "#D4E27A" },
+  { x: "17%", b: "14px", g: "v\nY\n^^^^^", c: "#9CC4F0" },
+  { x: "29%", y: "70%", g: "|\n^^^", c: "#E8768A" },
+  { x: "41%", b: "10px", g: "\\ |/", c: "#B7D96B" },
+  { x: "53%", y: "62%", g: "^^^", c: "#D4E27A" },
+  { x: "64%", b: "18px", g: "..", c: "#E8768A" },
+  { x: "73%", b: "8px", g: "v\nY\n^^^^^", c: "#9CC4F0" },
+  { x: "84%", y: "56%", g: "\\ |/", c: "#B7D96B" },
+  { x: "93%", b: "12px", g: "(*)\n>\\", c: "#D4E27A" },
+  { x: "96%", y: "40%", g: "..", c: "#E8768A" },
+];
+
 function Pitch() {
   return (
     <>
@@ -102,25 +115,16 @@ function Pitch() {
         </g>
         <circle cx="860" cy="300" r="5" fill="rgba(255,255,255,0.12)" />
       </svg>
-      <svg className="absolute left-0 bottom-0 w-full pointer-events-none" height="84" aria-hidden>
-        <defs>
-          <pattern id="blades" width="132" height="84" patternUnits="userSpaceOnUse">
-            <g fill="none" strokeLinecap="round">
-              <path d="M6 84 Q8 40 2 22" stroke="#4E8F5F" strokeOpacity="0.55" strokeWidth="2" />
-              <path d="M18 84 Q14 52 22 36" stroke="#6FB07F" strokeOpacity="0.4" strokeWidth="1.6" />
-              <path d="M31 84 Q33 30 44 8" stroke="#3F7A50" strokeOpacity="0.6" strokeWidth="2.2" />
-              <path d="M46 84 Q44 58 38 46" stroke="#6FB07F" strokeOpacity="0.35" strokeWidth="1.4" />
-              <path d="M60 84 Q64 44 76 30" stroke="#4E8F5F" strokeOpacity="0.5" strokeWidth="2" />
-              <path d="M74 84 Q72 24 62 4" stroke="#3F7A50" strokeOpacity="0.55" strokeWidth="2.2" />
-              <path d="M88 84 Q92 56 100 44" stroke="#6FB07F" strokeOpacity="0.4" strokeWidth="1.6" />
-              <path d="M102 84 Q98 36 108 14" stroke="#4E8F5F" strokeOpacity="0.55" strokeWidth="2" />
-              <path d="M116 84 Q118 50 112 38" stroke="#6FB07F" strokeOpacity="0.35" strokeWidth="1.4" />
-              <path d="M126 84 Q130 60 128 48" stroke="#3F7A50" strokeOpacity="0.5" strokeWidth="1.8" />
-            </g>
-          </pattern>
-        </defs>
-        <rect width="100%" height="84" fill="url(#blades)" />
-      </svg>
+      {TUFTS.map((t, i) => (
+        <pre
+          key={i}
+          aria-hidden
+          className="absolute pointer-events-none select-none m-0 text-[10px] leading-[1.1]"
+          style={{ left: t.x, top: "y" in t ? t.y : undefined, bottom: "b" in t ? t.b : undefined, color: t.c, opacity: 0.75, fontFamily: "var(--font-geist-mono)" }}
+        >
+          {t.g}
+        </pre>
+      ))}
     </>
   );
 }
@@ -134,12 +138,8 @@ export function ContactFooter() {
   return (
     <footer
       id="contact"
-      className="relative overflow-hidden px-6 pt-20 pb-28"
-      style={{
-        backgroundColor: "#17331F",
-        backgroundImage: "repeating-linear-gradient(90deg, #17331F 0, #17331F 96px, #1B3A25 96px, #1B3A25 192px)",
-        ...mono,
-      }}
+      className="relative overflow-hidden px-6 pt-20 pb-24"
+      style={{ backgroundColor: "#1C1917", ...mono }}
     >
       <Pitch />
       <style>{`
