@@ -11,8 +11,8 @@ const text = {
     page: "Page",
     email: "Email",
     resume: "Resume",
-    home: "Home",
     work: "Work",
+    playground: "Playground",
     about: "About",
   },
   zh: {
@@ -22,22 +22,28 @@ const text = {
     page: "页面",
     email: "邮箱",
     resume: "简历",
-    home: "首页",
     work: "作品",
+    playground: "游乐场",
     about: "关于",
   },
 } as const;
 
 function useClock(tz: string) {
-  const [time, setTime] = useState("");
+  const [state, setState] = useState({ time: "", gmt: "" });
   useEffect(() => {
-    const fmt = () =>
-      new Date().toLocaleTimeString("en-US", { timeZone: tz, hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false });
-    setTime(fmt());
-    const id = setInterval(() => setTime(fmt()), 1000);
+    const tick = () => {
+      const now = new Date();
+      const time = now.toLocaleTimeString("en-US", { timeZone: tz, hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false });
+      const gmt = new Intl.DateTimeFormat("en-US", { timeZone: tz, timeZoneName: "shortOffset" })
+        .formatToParts(now)
+        .find((p) => p.type === "timeZoneName")?.value ?? "";
+      setState({ time, gmt });
+    };
+    tick();
+    const id = setInterval(tick, 1000);
     return () => clearInterval(id);
   }, [tz]);
-  return time;
+  return state;
 }
 
 const mono = { fontFamily: "var(--font-geist-mono)" } as const;
@@ -79,8 +85,8 @@ export function ContactFooter() {
           {/* Page */}
           <div>
             <p className={heading}>{t.page}</p>
-            <a href="/" className={link}>{t.home}</a>
-            <a href="/#work" className={link}>{t.work}</a>
+            <a href="/" className={link}>{t.work}</a>
+            <a href="/work/art" className={link}>{t.playground}</a>
             <a href="/about" className={link}>{t.about}</a>
           </div>
         </div>
@@ -89,7 +95,7 @@ export function ContactFooter() {
         <div className="mt-20 pt-6 border-t border-white/10 flex flex-wrap items-center justify-between gap-4 text-[11px] tracking-wider uppercase">
           <p className="text-white/40">© 2026 Sifan Xue</p>
           <p className="text-white/40">
-            Seattle {seattle || "--:--:--"} <span className="mx-2">/</span> Beijing {beijing || "--:--:--"}
+            Seattle {seattle.gmt} {seattle.time || "--:--:--"} <span className="mx-2">/</span> Beijing {beijing.gmt} {beijing.time || "--:--:--"}
           </p>
         </div>
       </div>
