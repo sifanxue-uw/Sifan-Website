@@ -218,7 +218,7 @@ export default function Home() {
                 >
                   {/* front */}
                   <div
-                    className="absolute inset-0 flex items-end justify-end p-5 overflow-hidden"
+                    className="absolute inset-0 overflow-hidden"
                     style={{
                       backfaceVisibility: "hidden",
                       background:
@@ -230,19 +230,27 @@ export default function Home() {
                       className="absolute inset-0 pointer-events-none"
                       style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")", backgroundSize: "160px 160px", opacity: 0.22, mixBlendMode: "overlay" }}
                     />
-                    <p
-                      className="relative text-right font-extrabold uppercase leading-[0.9] tracking-tight text-[#1C1917] select-none"
-                      style={{ fontFamily: "var(--font-geist-sans)", fontSize: "clamp(28px, 3.4vw, 42px)" }}
-                    >
-                      Sifan<br />Xue
-                    </p>
+                    {(["Sifan", "Xue"] as const).map((word, i) => (
+                      <span
+                        key={word}
+                        className={"absolute select-none uppercase leading-none tracking-tight " + (i === 0 ? "top-4 left-4" : "bottom-4 right-4")}
+                        style={{
+                          fontFamily: "var(--font-display)",
+                          fontSize: "clamp(26px, 3.1vw, 38px)",
+                          color: "transparent",
+                          WebkitTextStroke: "1.5px #ffffff",
+                        }}
+                      >
+                        {word}
+                      </span>
+                    ))}
                   </div>
                   {/* back */}
                   <div
                     className="absolute inset-0 flex items-center justify-center overflow-hidden"
-                    style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)", backgroundColor: "#F3F1EC" }}
+                    style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
                   >
-                    <Image src="/logo-transparent.png" alt="Sifan Xue logo" width={360} height={270} className="w-[135%] max-w-none h-auto" priority />
+                    <Image src="/logo-transparent.png" alt="Sifan Xue logo" width={360} height={270} className="w-[88%] max-w-none h-auto" priority />
                   </div>
                 </div>
               </div>
