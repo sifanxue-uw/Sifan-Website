@@ -156,6 +156,7 @@ export default function Home() {
   const t = content[lang];
 
   const [wordIndex, setWordIndex] = useState(0);
+  const [flipped, setFlipped] = useState(false);
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
@@ -185,9 +186,6 @@ export default function Home() {
 
           {/* Left — text */}
           <div>
-            <FadeIn delay={0}>
-              <Image src="/logo-transparent.png" alt="Sifan Xue logo" width={220} height={220} className="object-contain w-[220px] h-[220px] -ml-12 -mt-16 -mb-12" priority />
-            </FadeIn>
             <FadeIn delay={60}>
               <h1
                 style={{ fontFamily: "var(--font-cormorant)" }}
@@ -225,27 +223,56 @@ export default function Home() {
 
           </div>
 
-          {/* Right — colour block */}
+          {/* Right — flip card: colour block / logo */}
           <FadeIn delay={200}>
             <div className="flex justify-center items-center w-full">
               <div
-                className="relative w-full max-w-[270px] aspect-[4/5] flex items-end justify-end p-5 overflow-hidden"
-                style={{
-                  background:
-                    "radial-gradient(120% 70% at 50% 0%, #FF6A3D 0%, rgba(255,106,61,0) 60%), linear-gradient(180deg, #E5472A 0%, #C8321E 45%, #6E170F 100%)",
-                }}
+                role="button"
+                tabIndex={0}
+                aria-label="Flip card"
+                onMouseEnter={() => setFlipped(true)}
+                onMouseLeave={() => setFlipped(false)}
+                onClick={() => setFlipped((v) => !v)}
+                className="relative w-full max-w-[270px] aspect-[4/5] cursor-none"
+                style={{ perspective: 1200 }}
               >
                 <div
-                  aria-hidden
-                  className="absolute inset-0 pointer-events-none"
-                  style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")", backgroundSize: "160px 160px", opacity: 0.22, mixBlendMode: "overlay" }}
-                />
-                <p
-                  className="relative text-right font-extrabold uppercase leading-[0.9] tracking-tight text-[#1C1917] select-none"
-                  style={{ fontFamily: "var(--font-geist-sans)", fontSize: "clamp(28px, 3.4vw, 42px)" }}
+                  className="absolute inset-0"
+                  style={{
+                    transformStyle: "preserve-3d",
+                    transition: "transform 0.9s cubic-bezier(0.22, 1, 0.36, 1)",
+                    transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
+                  }}
                 >
-                  Sifan<br />Xue
-                </p>
+                  {/* front */}
+                  <div
+                    className="absolute inset-0 flex items-end justify-end p-5 overflow-hidden"
+                    style={{
+                      backfaceVisibility: "hidden",
+                      background:
+                        "radial-gradient(120% 70% at 50% 0%, #FF6A3D 0%, rgba(255,106,61,0) 60%), linear-gradient(180deg, #E5472A 0%, #C8321E 45%, #6E170F 100%)",
+                    }}
+                  >
+                    <div
+                      aria-hidden
+                      className="absolute inset-0 pointer-events-none"
+                      style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")", backgroundSize: "160px 160px", opacity: 0.22, mixBlendMode: "overlay" }}
+                    />
+                    <p
+                      className="relative text-right font-extrabold uppercase leading-[0.9] tracking-tight text-[#1C1917] select-none"
+                      style={{ fontFamily: "var(--font-geist-sans)", fontSize: "clamp(28px, 3.4vw, 42px)" }}
+                    >
+                      Sifan<br />Xue
+                    </p>
+                  </div>
+                  {/* back */}
+                  <div
+                    className="absolute inset-0 flex items-center justify-center overflow-hidden"
+                    style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)", backgroundColor: "#F3F1EC" }}
+                  >
+                    <Image src="/logo-transparent.png" alt="Sifan Xue logo" width={360} height={270} className="w-[135%] max-w-none h-auto" priority />
+                  </div>
+                </div>
               </div>
             </div>
           </FadeIn>
