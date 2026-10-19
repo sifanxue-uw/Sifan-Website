@@ -7,26 +7,18 @@ type Seg = { t: string; k?: boolean };
 
 const STATEMENT: Record<"en" | "zh", Seg[]> = {
   en: [
-    { t: "Sifan is a " },
-    { t: "UX designer", k: true },
-    { t: " who " },
-    { t: "studies people", k: true },
+    { t: "Designer", k: true },
     { t: ", " },
-    { t: "builds products", k: true },
-    { t: " & " },
-    { t: "plays", k: true },
-    { t: " in between." },
+    { t: "UX Researcher", k: true },
+    { t: ", " },
+    { t: "Creating stuff", k: true },
   ],
   zh: [
-    { t: "薛斯凡是一名 " },
-    { t: "UX 设计师", k: true },
+    { t: "设计师", k: true },
     { t: "，" },
-    { t: "研究人", k: true },
+    { t: "UX 研究员", k: true },
     { t: "，" },
-    { t: "打造产品", k: true },
-    { t: "，也在两者之间" },
-    { t: "自由游走", k: true },
-    { t: "。" },
+    { t: "做点有意思的东西", k: true },
   ],
 };
 
@@ -40,7 +32,7 @@ export function FocusIntro() {
       <h1
         onMouseLeave={() => setActive(null)}
         style={{ fontFamily: "var(--font-cormorant)" }}
-        className="text-4xl md:text-5xl leading-[1.15] tracking-tight"
+        className="text-5xl md:text-6xl leading-[1.12] tracking-tight"
       >
         {segs.map((s, i) => {
           const isActive = active === i;
