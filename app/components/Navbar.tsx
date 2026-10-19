@@ -64,9 +64,6 @@ export function Navbar({ nav, activeHref }: NavbarProps) {
   return (
     <nav className="fixed top-6 left-0 w-full z-50 flex justify-center px-4 pointer-events-none">
       <div className="pointer-events-auto flex items-center gap-2 rounded-full bg-white/75 backdrop-blur-md shadow-[0_8px_32px_rgba(0,0,0,0.07)] border border-black/5 px-3 py-2.5">
-        <Link href="/" aria-label="Home" className="flex items-center cursor-none">
-          <Image src="/logo-transparent.png" alt="Sifan" width={112} height={112} className="object-contain h-[112px] w-[112px] shrink-0 -my-10 -ml-7 -mr-6" />
-        </Link>
         {links.map(({ href, label, key }) => {
           let isActive = false;
           if (key === "about") {

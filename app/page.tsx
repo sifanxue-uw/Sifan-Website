@@ -182,6 +182,9 @@ export default function Home() {
           {/* Left — text */}
           <div>
             <FadeIn delay={0}>
+              <Image src="/logo-transparent.png" alt="Sifan Xue logo" width={220} height={220} className="object-contain w-[220px] h-[220px] -ml-12 -mt-16 -mb-12" priority />
+            </FadeIn>
+            <FadeIn delay={60}>
               <h1
                 style={{ fontFamily: "var(--font-cormorant)" }}
                 className="text-6xl lg:text-7xl font-medium leading-tight mb-2 tracking-tight"
