@@ -21,8 +21,8 @@ const ebGaramond = EB_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "Sifan — UX Designer",
-  description: "Portfolio of Sifan, UX Designer",
+  title: "Sifan Xue",
+  description: "Portfolio of Sifan Xue, UX Designer",
   icons: {
     icon: "/logo-transparent.png",
   },
