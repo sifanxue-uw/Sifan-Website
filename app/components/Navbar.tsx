@@ -123,11 +123,11 @@ export function Navbar({ nav, activeHref }: NavbarProps) {
               <Link
                 key={href}
                 href={href}
-                style={{ fontFamily: "var(--font-nav)" }}
-                className={`transition-colors cursor-none px-2 py-1.5 text-[15px] font-normal tracking-wide lowercase ${
+                style={{ fontFamily: "var(--font-geist-mono)" }}
+                className={`transition-colors cursor-none px-2 py-1.5 text-[13px] font-medium tracking-wider uppercase ${
                   isActive
                     ? "text-neutral-900"
-                    : "text-neutral-400 hover:text-neutral-900"
+                    : "text-neutral-500 hover:text-neutral-900"
                 }`}
               >
                 {label}
