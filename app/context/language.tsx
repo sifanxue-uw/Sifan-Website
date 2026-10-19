@@ -7,9 +7,6 @@ export type LangKey = "en" | "zh" | "es" | "ko" | "ja";
 export const languages: { key: LangKey; code: string; label: string }[] = [
   { key: "en", code: "EN", label: "English" },
   { key: "zh", code: "中文", label: "中文" },
-  { key: "es", code: "ES", label: "Español" },
-  { key: "ko", code: "KO", label: "한국어" },
-  { key: "ja", code: "JP", label: "日本語" },
 ];
 
 interface LanguageContextType {
