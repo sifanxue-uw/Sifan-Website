@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLanguage, type LangKey } from "@/app/context/language";
 
 function AnimatedSmiley() {
@@ -275,12 +275,97 @@ export function ContactFooter() {
       </section>
 
       {/* Footer */}
-      <footer className="py-6 px-6 border-t border-white/10" style={{ backgroundColor: "#1C1917" }}>
-        <div className="max-w-5xl mx-auto flex justify-between items-center">
-          <p className="text-white/60 text-xs tracking-widest uppercase">© 2026 Sifan Xue</p>
-          <p className="text-white/40 text-xs">Designed & built by Sifan</p>
-        </div>
-      </footer>
+      <FunFooter />
     </>
+  );
+}
+
+const MARQUEE = ["Let's create something together", "期待与你共同创造", "Creemos algo juntos", "함께 만들어요", "一緒に作ろう"];
+const ACCENTS = ["#FF6B35", "#ED225D", "#FFC93C", "#4ADE80", "#60A5FA"];
+
+function useClock(tz: string) {
+  const [time, setTime] = useState("");
+  useEffect(() => {
+    const fmt = () =>
+      new Date().toLocaleTimeString("en-US", { timeZone: tz, hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false });
+    setTime(fmt());
+    const id = setInterval(() => setTime(fmt()), 1000);
+    return () => clearInterval(id);
+  }, [tz]);
+  return time;
+}
+
+function FunFooter() {
+  const seattle = useClock("America/Los_Angeles");
+  const beijing = useClock("Asia/Shanghai");
+  const [clicks, setClicks] = useState(0);
+  const items = [...MARQUEE, ...MARQUEE];
+
+  return (
+    <footer className="overflow-hidden border-t border-white/10 cursor-none" style={{ backgroundColor: "#1C1917" }}>
+      <style>{`
+        @keyframes footer-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        @keyframes footer-wave { 0%,100% { transform: rotate(0); } 25% { transform: rotate(18deg); } 75% { transform: rotate(-12deg); } }
+      `}</style>
+
+      {/* Marquee */}
+      <div className="py-5 border-b border-white/10 overflow-hidden">
+        <div className="flex w-max whitespace-nowrap" style={{ animation: "footer-marquee 28s linear infinite" }}>
+          {items.map((text, i) => (
+            <span key={i} className="flex items-center text-2xl md:text-3xl font-light text-white/80">
+              {text}
+              <span className="mx-8 text-xl" style={{ color: ACCENTS[i % ACCENTS.length] }}>✦</span>
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <div className="max-w-5xl mx-auto px-6 pt-10">
+        {/* Clocks + back to top */}
+        <div className="flex flex-wrap items-center justify-between gap-6">
+          <div className="flex gap-10">
+            <div>
+              <p className="text-white/40 text-[10px] tracking-widest uppercase mb-1">Seattle</p>
+              <p className="text-white text-lg font-mono tabular-nums">{seattle || "--:--:--"}</p>
+            </div>
+            <div>
+              <p className="text-white/40 text-[10px] tracking-widest uppercase mb-1">Beijing</p>
+              <p className="text-white text-lg font-mono tabular-nums">{beijing || "--:--:--"}</p>
+            </div>
+          </div>
+          <button
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className="px-5 py-2.5 rounded-full border border-white/40 text-white text-xs font-semibold tracking-widest uppercase hover:bg-white hover:text-[#1C1917] transition-all cursor-none"
+          >
+            Back to top ↑
+          </button>
+        </div>
+
+        {/* Giant wordmark */}
+        <div
+          className="select-none text-center leading-none font-bold tracking-tight pt-10 pb-2 text-[17vw] md:text-[200px]"
+          onClick={() => setClicks((c) => c + 1)}
+        >
+          {"SIFAN XUE".split("").map((ch, i) => (
+            <span
+              key={i}
+              className="inline-block transition-all duration-300 text-white/25 hover:text-[var(--c)] hover:-translate-y-3"
+              style={{ ["--c" as string]: ACCENTS[(i + clicks) % ACCENTS.length], whiteSpace: "pre" }}
+            >
+              {ch}
+            </span>
+          ))}
+        </div>
+
+        {/* Bottom line */}
+        <div className="flex flex-wrap justify-between items-center gap-3 py-6 border-t border-white/10">
+          <p className="text-white/60 text-xs tracking-widest uppercase">© 2026 Sifan Xue</p>
+          <p className="text-white/40 text-xs">
+            Designed & built by Sifan <span className="inline-block origin-bottom" style={{ animation: "footer-wave 2.4s ease-in-out infinite" }}>👋</span>
+            {clicks > 0 && <span className="ml-3 text-white/30">{clicks >= 5 ? "okay okay, you found the party mode 🎉" : "psst — keep clicking the name"}</span>}
+          </p>
+        </div>
+      </div>
+    </footer>
   );
 }
