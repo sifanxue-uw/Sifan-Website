@@ -7,7 +7,7 @@ const text = {
   en: {
     quote: "Open to collaborations, internships, and new opportunities.",
     made: "Designed & built by Sifan",
-    sayHi: "Get in touch",
+    sayHi: "Get in touch:>",
     page: "Page",
     email: "Email",
     copied: "Copied!",
@@ -19,7 +19,7 @@ const text = {
   zh: {
     quote: "欢迎合作项目、实习机会以及一切可能的连接。",
     made: "由 Sifan 设计并开发",
-    sayHi: "联系我",
+    sayHi: "联系我:>",
     page: "页面",
     email: "邮箱",
     copied: "已复制！",
@@ -196,20 +196,8 @@ function Pitch() {
       >
         <MuLogo />
         <p
-          className="mt-1 mb-3 select-none"
-          style={{
-            fontFamily: "var(--font-geist-sans)",
-            fontWeight: 900,
-            fontSize: 46,
-            lineHeight: 1,
-            letterSpacing: "-0.03em",
-            transform: "skewX(-9deg)",
-            background: "linear-gradient(180deg, #FF6A2A 0%, #E5202E 55%, #8A0F1B 100%)",
-            WebkitBackgroundClip: "text",
-            backgroundClip: "text",
-            color: "transparent",
-            filter: "drop-shadow(0 0 14px rgba(229,32,46,0.55))",
-          }}
+          className="mt-2 mb-4 select-none text-[13px] font-medium tracking-[0.3em] uppercase"
+          style={{ fontFamily: "var(--font-geist-mono)", color: "#E5202E" }}
         >
           GGMU
         </p>
@@ -286,7 +274,7 @@ export function ContactFooter() {
             <a href="https://linkedin.com/in/sifan-xue-8b2503280" target="_blank" rel="noopener noreferrer" className={link}>LinkedIn</a>
             <a href="https://github.com/sifanxue-uw" target="_blank" rel="noopener noreferrer" className={link}>GitHub</a>
             <a href="https://www.instagram.com/tonyxxue?igsh=NHp0ZjBpc2YzZDF1&utm_source=qr" target="_blank" rel="noopener noreferrer" className={link}>Instagram</a>
-            <CopyItem value={WECHAT} label={"WeChat · " + WECHAT} copiedLabel={t.copied} />
+            <CopyItem value={WECHAT} label={"WeChat: " + WECHAT} copiedLabel={t.copied} />
             <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className={link}>{t.resume}</a>
           </div>
 
