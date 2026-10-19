@@ -195,15 +195,52 @@ function Pitch() {
         }}
       >
         <MuLogo />
-        <p style={{ fontFamily: "var(--font-geist-mono)" }} className="mt-2 mb-4 text-[12px] font-medium tracking-[0.35em] uppercase text-[#E5202E]">GGMU</p>
+        <p
+          className="mt-1 mb-3 select-none"
+          style={{
+            fontFamily: "var(--font-geist-sans)",
+            fontWeight: 900,
+            fontSize: 46,
+            lineHeight: 1,
+            letterSpacing: "-0.03em",
+            transform: "skewX(-9deg)",
+            background: "linear-gradient(180deg, #FF6A2A 0%, #E5202E 55%, #8A0F1B 100%)",
+            WebkitBackgroundClip: "text",
+            backgroundClip: "text",
+            color: "transparent",
+            filter: "drop-shadow(0 0 14px rgba(229,32,46,0.55))",
+          }}
+        >
+          GGMU
+        </p>
       </div>
 
+      <style>{`
+        @keyframes flame-flicker {
+          0%   { transform: scale(1, 1) translateY(0); opacity: 0.8; }
+          50%  { transform: scale(1.05, 1.35) translateY(-2px) skewX(-4deg); opacity: 1; }
+          100% { transform: scale(0.95, 1.2) translateY(-1px) skewX(4deg); opacity: 0.9; }
+        }
+      `}</style>
       {TUFTS.map((t, i) => (
         <pre
           key={i}
           aria-hidden
           className="absolute pointer-events-none select-none m-0 text-[10px] leading-[1.1]"
-          style={{ left: t.x, top: "y" in t ? t.y : undefined, bottom: "b" in t ? t.b : undefined, color: t.c, opacity: 0.75, fontFamily: "var(--font-geist-mono)" }}
+          style={{
+            left: t.x,
+            top: "y" in t ? t.y : undefined,
+            bottom: "b" in t ? t.b : undefined,
+            color: hot ? (i % 2 ? "#FF6A2A" : "#E5202E") : t.c,
+            opacity: hot ? 1 : 0.75,
+            fontFamily: "var(--font-geist-mono)",
+            fontWeight: hot ? 700 : 400,
+            textShadow: hot ? "0 0 6px rgba(255,90,40,0.95), 0 -5px 12px rgba(255,150,40,0.65)" : "none",
+            transformOrigin: "50% 100%",
+            transition: "color 0.35s ease, text-shadow 0.35s ease",
+            transitionDelay: hot ? `${i * 70}ms` : "0ms",
+            animation: hot ? `flame-flicker ${0.45 + (i % 4) * 0.13}s ease-in-out ${i * 70}ms infinite alternate` : "none",
+          }}
         >
           {t.g}
         </pre>
