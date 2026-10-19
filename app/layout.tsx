@@ -39,9 +39,11 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${ebGaramond.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <Cursor />
         <Grain />
-        <LanguageProvider>{children}</LanguageProvider>
+        <LanguageProvider>
+          <Cursor />
+          {children}
+        </LanguageProvider>
       </body>
     </html>
   );

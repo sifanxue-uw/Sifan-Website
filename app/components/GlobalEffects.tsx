@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useLanguage } from "@/app/context/language";
 
 function pentagon(cx: number, cy: number, r: number, rot: number) {
   return Array.from({ length: 5 }, (_, i) => {
@@ -16,6 +17,8 @@ const OUTER = Array.from({ length: 5 }, (_, i) => {
 });
 
 export function Cursor() {
+  const { lang } = useLanguage();
+  const cuju = lang === "zh";
   const posRef = useRef<HTMLDivElement>(null);
   const ballRef = useRef<HTMLDivElement>(null);
   const rafRef = useRef<number>(0);
@@ -64,7 +67,28 @@ export function Cursor() {
       style={{ willChange: "transform" }}
     >
       <div ref={ballRef} className="-translate-x-1/2 -translate-y-1/2" style={{ marginLeft: -14, marginTop: -14, width: 28, height: 28, willChange: "transform" }}>
-        <svg viewBox="-13 -13 26 26" width="28" height="28" style={{ display: "block", filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.25))" }}>
+        {cuju ? (
+          <svg viewBox="-13 -13 26 26" width="28" height="28" style={{ display: "block", filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.3))" }}>
+            <defs>
+              <radialGradient id="cuju-grad" cx="35%" cy="30%" r="80%">
+                <stop offset="0%" stopColor="#E3B873" />
+                <stop offset="100%" stopColor="#B07A3A" />
+              </radialGradient>
+              <clipPath id="cuju-clip"><circle r="12" /></clipPath>
+            </defs>
+            <circle r="12" fill="url(#cuju-grad)" />
+            <g clipPath="url(#cuju-clip)" fill="none" stroke="#6B3F14" strokeWidth="0.9">
+              {[0, 60, 120].map((deg) => (
+                <ellipse key={deg} rx="12" ry="5.2" transform={`rotate(${deg})`} />
+              ))}
+              {[0, 60, 120].map((deg) => (
+                <ellipse key={"s" + deg} rx="12" ry="5.2" transform={`rotate(${deg})`} stroke="#F4DDB0" strokeWidth="0.5" strokeDasharray="1 1.2" />
+              ))}
+            </g>
+            <circle r="12" fill="none" stroke="#6B3F14" strokeWidth="1" />
+          </svg>
+        ) : (
+                <svg viewBox="-13 -13 26 26" width="28" height="28" style={{ display: "block", filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.25))" }}>
           <defs>
             <clipPath id="ball-clip"><circle r="12" /></clipPath>
           </defs>
@@ -85,6 +109,7 @@ export function Cursor() {
           </g>
           <circle r="12" fill="none" stroke="#1C1917" strokeWidth="1" />
         </svg>
+        )}
       </div>
     </div>
   );
