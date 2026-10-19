@@ -18,6 +18,7 @@ const ebGaramond = EB_Garamond({
   variable: "--font-cormorant",
   subsets: ["latin"],
   weight: ["400", "500"],
+  style: ["normal", "italic"],
 });
 
 export const metadata: Metadata = {
