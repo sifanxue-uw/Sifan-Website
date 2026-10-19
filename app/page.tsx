@@ -237,8 +237,7 @@ export default function Home() {
                         style={{
                           fontFamily: "var(--font-display)",
                           fontSize: "clamp(26px, 3.1vw, 38px)",
-                          color: "transparent",
-                          WebkitTextStroke: "1.5px #ffffff",
+                          color: "#ffffff",
                         }}
                       >
                         {word}
