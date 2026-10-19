@@ -26,7 +26,7 @@ export function LangSwitcher() {
       {/* 触发按钮 */}
       <button
         onClick={() => setOpen(o => !o)}
-        className="flex items-center gap-2 rounded-2xl border border-neutral-200 bg-white shadow-sm px-3 py-2 hover:border-neutral-400 transition-all"
+        className="flex items-center gap-1.5 rounded-full bg-white/70 px-3 py-1.5 hover:bg-white transition-all"
       >
         <div className="flex items-center text-neutral-500">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
@@ -100,42 +100,34 @@ export function Navbar({ nav, activeHref }: NavbarProps) {
   ];
 
   return (
-    <nav className="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-neutral-100">
-      <div className="max-w-5xl mx-auto px-6 py-3 flex justify-between items-center">
-        <Link href="/" className="flex items-center gap-2 cursor-none">
-          <Image src="/logo-transparent.png" alt="Sifan" width={130} height={130} className="object-contain" style={{ marginLeft: "-36px" }} />
-          <span
-            style={{ fontFamily: "var(--font-cormorant)" }}
-            className="text-2xl font-medium tracking-wide text-neutral-800 leading-none translate-y-0.5"
-          >
-            {lang === "zh" ? "薛斯凡" : "Sifan Xue"}
-          </span>
+    <nav className="fixed top-4 left-0 w-full z-50 flex justify-center px-4 pointer-events-none">
+      <div className="pointer-events-auto flex items-center gap-2 rounded-full bg-neutral-200/80 backdrop-blur-md shadow-[0_8px_30px_rgba(0,0,0,0.12)] border border-white/60 pl-4 pr-2 py-1.5">
+        <Link href="/" aria-label="Home" className="flex items-center cursor-none mr-1">
+          <Image src="/logo-transparent.png" alt="Sifan" width={72} height={72} className="object-contain h-[72px] w-[72px] shrink-0 -my-6 -ml-3 -mr-4" />
         </Link>
-        <div className="flex items-center gap-8">
-          {links.map(({ href, label, key }) => {
-            let isActive = false;
-            if (key === "about") {
-              isActive = pathname === "/about";
-            } else if (pathname === "/") {
-              isActive = key === activeSection;
-            }
-            return (
-              <Link
-                key={href}
-                href={href}
-                style={{ fontFamily: "var(--font-geist-mono)" }}
-                className={`transition-colors cursor-none px-2 py-1.5 text-[13px] font-medium tracking-wider uppercase ${
-                  isActive
-                    ? "text-neutral-900"
-                    : "text-neutral-500 hover:text-neutral-900"
-                }`}
-              >
-                {label}
-              </Link>
-            );
-          })}
-          <LangSwitcher />
-        </div>
+        {links.map(({ href, label, key }) => {
+          let isActive = false;
+          if (key === "about") {
+            isActive = pathname === "/about";
+          } else if (pathname === "/") {
+            isActive = key === activeSection;
+          }
+          return (
+            <Link
+              key={href}
+              href={href}
+              style={{ fontFamily: "var(--font-geist-mono)" }}
+              className={`transition-colors cursor-none px-3.5 py-1.5 rounded-full text-[12px] font-medium tracking-wider uppercase ${
+                isActive
+                  ? "bg-white text-neutral-900 shadow-sm"
+                  : "text-neutral-500 hover:text-neutral-900"
+              }`}
+            >
+              {label}
+            </Link>
+          );
+        })}
+        <LangSwitcher />
       </div>
     </nav>
   );
