@@ -10,6 +10,7 @@ const text = {
     sayHi: "Say hi",
     page: "Page",
     email: "Email",
+    copied: "Copied!",
     resume: "Resume",
     work: "Work",
     playground: "Playground",
@@ -21,6 +22,7 @@ const text = {
     sayHi: "打个招呼",
     page: "页面",
     email: "邮箱",
+    copied: "已复制！",
     resume: "简历",
     work: "作品",
     playground: "游乐场",
@@ -48,7 +50,47 @@ function useClock(tz: string) {
 
 const mono = { fontFamily: "var(--font-geist-mono)" } as const;
 const heading = "text-[11px] tracking-wider uppercase text-white font-medium mb-5";
-const link = "block text-[11px] tracking-wider uppercase text-white/40 hover:text-white transition-colors cursor-none py-1.5";
+const link = "footer-link block w-fit text-[11px] tracking-wider uppercase text-white/40 transition-colors duration-200 cursor-none py-1.5";
+const EMAIL = "sifanxuecreate@gmail.com";
+const WECHAT = "TONYXUE020711";
+
+function CopyItem({ value, label, copiedLabel }: { value: string; label: string; copiedLabel: string }) {
+  const [copied, setCopied] = useState(false);
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(value);
+    } catch {
+      const ta = document.createElement("textarea");
+      ta.value = value;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      document.body.removeChild(ta);
+    }
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1800);
+  };
+
+  return (
+    <button type="button" onClick={copy} className={link + " group/copy flex items-center gap-2 text-left"} aria-label={value}>
+      <span>{copied ? copiedLabel : label}</span>
+      <svg
+        width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+        className={"transition-opacity duration-200 " + (copied ? "opacity-100" : "opacity-0 group-hover/copy:opacity-100")}
+      >
+        {copied ? (
+          <polyline points="20 6 9 17 4 12" />
+        ) : (
+          <>
+            <rect x="9" y="9" width="13" height="13" rx="2" />
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+          </>
+        )}
+      </svg>
+    </button>
+  );
+}
 
 export function ContactFooter() {
   const { lang } = useLanguage();
@@ -58,6 +100,10 @@ export function ContactFooter() {
 
   return (
     <footer id="contact" className="px-6 pt-20 pb-8" style={{ backgroundColor: "#1C1917", ...mono }}>
+      <style>{`
+        .footer-col:hover > .footer-link:not(:hover) { color: rgba(255,255,255,0.18); }
+        .footer-link:hover { color: #fff; }
+      `}</style>
       <div className="max-w-5xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-[1.6fr_1fr_1fr] gap-12 md:gap-8">
           {/* Left — statement */}
@@ -72,18 +118,18 @@ export function ContactFooter() {
           </div>
 
           {/* Say hi */}
-          <div>
+          <div className="footer-col">
             <p className={heading}>{t.sayHi}</p>
-            <a href="mailto:sifanxuecreate@gmail.com" className={link}>{t.email}</a>
+            <CopyItem value={EMAIL} label={t.email} copiedLabel={t.copied} />
             <a href="https://linkedin.com/in/sifan-xue-8b2503280" target="_blank" rel="noopener noreferrer" className={link}>LinkedIn</a>
             <a href="https://github.com/sifanxue-uw" target="_blank" rel="noopener noreferrer" className={link}>GitHub</a>
             <a href="https://www.instagram.com/tonyxxue?igsh=NHp0ZjBpc2YzZDF1&utm_source=qr" target="_blank" rel="noopener noreferrer" className={link}>Instagram</a>
-            <span className={link + " hover:text-white/40"}>WeChat · TONYXUE020711</span>
+            <CopyItem value={WECHAT} label={"WeChat · " + WECHAT} copiedLabel={t.copied} />
             <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className={link}>{t.resume}</a>
           </div>
 
           {/* Page */}
-          <div>
+          <div className="footer-col">
             <p className={heading}>{t.page}</p>
             <a href="/" className={link}>{t.work}</a>
             <a href="/work/art" className={link}>{t.playground}</a>
