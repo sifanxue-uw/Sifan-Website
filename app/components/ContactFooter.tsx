@@ -3,67 +3,6 @@
 import { useEffect, useState } from "react";
 import { useLanguage, type LangKey } from "@/app/context/language";
 
-function AnimatedSmiley() {
-  return (
-    <>
-      <style>{`
-        @keyframes dot-rise {
-          0%, 25%  { transform: translateY(0);    opacity: 1; }
-          50%, 75% { transform: translateY(-0.38em); opacity: 1; }
-          100%     { transform: translateY(0);    opacity: 1; }
-        }
-        @keyframes dot2-appear {
-          0%, 30%  { opacity: 0; transform: translateY(0); }
-          55%, 75% { opacity: 1; transform: translateY(0); }
-          90%, 100%{ opacity: 0; transform: translateY(0); }
-        }
-        @keyframes paren-appear {
-          0%, 35%  { opacity: 0; transform: translateX(-6px); }
-          60%, 75% { opacity: 1; transform: translateX(0); }
-          90%, 100%{ opacity: 0; transform: translateX(-6px); }
-        }
-        @keyframes dot-bob {
-          0%, 100% { transform: translateY(-0.38em) scale(1); }
-          50%      { transform: translateY(-0.42em) scale(1.15); }
-        }
-        .smiley-wrap { display: inline-flex; align-items: flex-end; line-height: 1; position: relative; }
-        .dot-period  {
-          display: inline-block;
-          width: 0.13em; height: 0.13em;
-          border-radius: 50%;
-          background: currentColor;
-          margin-bottom: 0.05em;
-          animation: dot-rise 4s ease-in-out infinite;
-        }
-        .dot-second  {
-          display: inline-block;
-          width: 0.13em; height: 0.13em;
-          border-radius: 50%;
-          background: currentColor;
-          position: absolute;
-          left: 0;
-          bottom: 0.05em;
-          animation: dot2-appear 4s ease-in-out infinite;
-        }
-        .paren-char  {
-          display: inline-block;
-          animation: paren-appear 4s ease-in-out infinite;
-          margin-left: 0.05em;
-          font-style: normal;
-          line-height: 1;
-        }
-      `}</style>
-      <span className="smiley-wrap ml-1">
-        <span style={{ position: 'relative', display: 'inline-block', width: '0.13em' }}>
-          <span className="dot-period" />
-          <span className="dot-second" />
-        </span>
-        <span className="paren-char">)</span>
-      </span>
-    </>
-  );
-}
-
 const content: Record<LangKey, {
   eyebrow: string;
   available: string;
@@ -123,23 +62,6 @@ export function ContactFooter() {
       <section id="contact" className="py-24 px-6" style={{ backgroundColor: "#1C1917" }}>
         <div className="max-w-5xl mx-auto">
 
-          {/* Top — availability + heading */}
-          <div className="mb-16">
-            <div className="flex items-center gap-2 mb-5">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-60" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-400" />
-              </span>
-              <p className="text-xs text-white/60 tracking-widest uppercase">{t.available}</p>
-            </div>
-            <h2
-              style={{ fontFamily: "var(--font-cormorant)" }}
-              className="text-6xl md:text-8xl font-medium leading-none tracking-tight text-white"
-            >
-              {t.title}<AnimatedSmiley />
-            </h2>
-          </div>
-
           {/* Bottom — info */}
           <div className="flex flex-col md:flex-row md:items-start gap-10">
 
@@ -191,19 +113,6 @@ export function ContactFooter() {
                   </svg>
                 </span>
                 Seattle, WA 98105
-              </div>
-
-              {/* Phone */}
-              <div className="flex items-center gap-3 text-white text-sm font-medium">
-                <span className="w-8 h-8 rounded-full border border-white/40 flex items-center justify-center flex-shrink-0">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.8a16 16 0 0 0 6.29 6.29l.96-.96a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-                  </svg>
-                </span>
-                <div className="flex flex-col gap-0.5">
-                  <a href="tel:+17348829867" className="hover:text-white/70 transition-colors">+1 734 882 9867</a>
-                  <a href="tel:+8618606206461" className="text-white/60 font-normal hover:text-white transition-colors">+86 186 0620 6461</a>
-                </div>
               </div>
 
               {/* WeChat */}
