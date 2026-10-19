@@ -3,66 +3,29 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLanguage, languages } from "@/app/context/language";
 
 export function LangSwitcher() {
   const { lang, setLang } = useLanguage();
-  const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-  const current = languages.find(l => l.key === lang)!;
-
-  // 点击外部关闭
-  useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
-    };
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
-  }, []);
 
   return (
-    <div ref={ref} className="relative">
-      {/* 触发按钮 */}
-      <button
-        onClick={() => setOpen(o => !o)}
-        className="flex items-center gap-1.5 rounded-full px-3 py-2 hover:bg-[#F3F1EC] transition-all"
-      >
-        <div className="flex items-center text-neutral-500">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="12" cy="12" r="10"/>
-            <path d="M2 12h20"/>
-            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-          </svg>
-        </div>
-        <span className="text-xs font-semibold text-neutral-700 tracking-widest">{current.code}</span>
-        <svg
-          width="10" height="10" viewBox="0 0 10 10" fill="none"
-          className={`text-neutral-400 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+    <div className="flex items-center rounded-full bg-[#F3F1EC] p-1 ml-1" role="group" aria-label="Language">
+      {languages.map((l) => (
+        <button
+          key={l.key}
+          onClick={() => setLang(l.key)}
+          aria-pressed={lang === l.key}
+          style={{ fontFamily: "var(--font-geist-mono)" }}
+          className={`cursor-none rounded-full px-3 py-1.5 text-[11px] font-medium tracking-wider transition-all ${
+            lang === l.key
+              ? "bg-white text-neutral-900 shadow-sm"
+              : "text-neutral-400 hover:text-neutral-900"
+          }`}
         >
-          <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-        </svg>
-      </button>
-
-      {/* 下拉菜单 */}
-      {open && (
-        <div className="absolute right-0 mt-2 w-36 bg-white border border-neutral-100 rounded-2xl shadow-xl overflow-hidden z-50 py-1">
-          {languages.map((l) => (
-            <button
-              key={l.key}
-              onClick={() => { setLang(l.key); setOpen(false); }}
-              className={`w-full flex items-center justify-between px-4 py-2.5 text-sm text-left transition-colors
-                ${lang === l.key
-                  ? "bg-neutral-900 text-white"
-                  : "hover:bg-neutral-50 text-neutral-600"
-                }`}
-            >
-              <span>{l.label}</span>
-              <span className={`text-xs font-mono ${lang === l.key ? "text-neutral-300" : "text-neutral-400"}`}>{l.code}</span>
-            </button>
-          ))}
-        </div>
-      )}
+          {l.code}
+        </button>
+      ))}
     </div>
   );
 }
