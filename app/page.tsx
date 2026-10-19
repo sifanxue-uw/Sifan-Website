@@ -122,6 +122,35 @@ const content: Record<LangKey, {
   },
 };
 
+type Project = { href: string; img: string; title: string; tag: string; en: string; zh: string; fit: "cover" | "contain" | "flush"; bg: string };
+
+const projects: Project[] = [
+  { href: "/work/p5", img: "/p5/p5js-feature-image.png", title: "p5.js Usability Research", tag: "UX Research · Usability Testing", fit: "flush", bg: "bg-[#ED225D]",
+    en: "A moderated usability study conducted in partnership with the p5.js team to improve the reference page and code editor experience.",
+    zh: "与 p5.js 官方团队合作开展的可用性研究，提升参考页面与代码编辑器的用户体验。" },
+  { href: "/work/soccergoat", img: "/soccergoat-cover-v3.png", title: "SoccerGOAT", tag: "Mobile App · Product Design · UX Research", fit: "cover", bg: "bg-neutral-100",
+    en: "A soccer companion app and physical display device designed to bring North American fans closer to the beautiful game.",
+    zh: "一款足球伴侣应用与实体展示设备，让北美球迷与美丽的足球运动更近一步。" },
+  { href: "/work/artflow", img: "/artflow/cover.png", title: "ArtFlow", tag: "UX Research · Usability Testing · QA", fit: "cover", bg: "bg-neutral-100",
+    en: "Systematic usability testing for Tencent Games’ internal art asset platform — 100+ issues identified, 95% fix rate achieved.",
+    zh: "腾讯游戏内部美术资源平台的系统性可用性测试——识别 100+ 问题，95% 修复率。" },
+  { href: "/work/art", img: "/art/cover.png", title: "My Art", tag: "Fine Art · Acrylic · Watercolour", fit: "contain", bg: "bg-white",
+    en: "A personal collection of acrylic and watercolour paintings exploring emotion, memory, and the places that shaped me.",
+    zh: "探索情感、记忆与成长之地的丙烯与水彩画作品集。" },
+  { href: "/work/vozy", img: "/vozy/vozy cover.png", title: "Vozy", tag: "Product Design · UX Research · Wearable", fit: "cover", bg: "bg-neutral-100",
+    en: "A wearable travel companion reducing anxiety and physical burden for independent travellers.",
+    zh: "减轻独立旅行者焦虑与负担的穿戴式旅行伴侣设备。" },
+  { href: "/work/recoaster", img: "/recoaster/RC cover.png", title: "RE Coaster", tag: "Product Design · Sustainability · Craft", fit: "cover", bg: "bg-neutral-100",
+    en: "A sustainable coaster crafted from recycled coffee grounds using woodworking, laser cutting and resin.",
+    zh: "以咖啡渣为原料，结合木工与树脂工艺制作的可持续杯垫。" },
+  { href: "/work/peticx", img: "/peticx/px缩略图.png", title: "PeticX", tag: "Product Design · UX Research · Pet Care", fit: "contain", bg: "bg-neutral-100",
+    en: "A pet care product designed through end-to-end user research and iterative prototyping.",
+    zh: "通过端到端用户研究与迭代原型设计的宠物护理产品。" },
+  { href: "/work/maskoff", img: "/maskoff/Maskoff cover.png", title: "Maskoff", tag: "Brand Design · Product Design", fit: "cover", bg: "bg-neutral-100",
+    en: "A face mask brand exploring identity and the tension between concealment and visibility.",
+    zh: "探索身份认同与隐藏和显露之间张力的口罩品牌设计。" },
+];
+
 export default function Home() {
   const { lang } = useLanguage();
   const t = content[lang];
@@ -216,126 +245,26 @@ export default function Home() {
       </section>
 
       {/* Work */}
-      <section id="work" className="py-24 px-6">
-        <div className="max-w-5xl mx-auto">
-          <FadeIn>
-            <p className="text-sm text-neutral-400 tracking-widest uppercase mb-4">{t.work.tag}</p>
-            <h2 className="text-4xl font-bold tracking-tight mb-16">{t.work.title}</h2>
-          </FadeIn>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <FadeIn delay={0}>
-              <a href="/work/p5" className="group p-8 rounded-2xl border border-neutral-100 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 cursor-none bg-white block">
-                <div className="w-full h-64 rounded-xl mb-6 overflow-hidden relative group-hover:brightness-105 transition-all bg-neutral-50">
-                  <Image src="/p5/p5js-feature-image.png" alt="p5.js Research" fill className="object-contain p-6" unoptimized />
+      <section id="work" className="pt-8 pb-28 px-6">
+        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-16">
+          {projects.map((pr, i) => (
+            <FadeIn key={pr.href} delay={(i % 2) * 100}>
+              <a href={pr.href} className="group block cursor-none">
+                <div className={"relative w-full aspect-[4/3] overflow-hidden " + pr.bg}>
+                  <Image
+                    src={pr.img}
+                    alt={pr.title}
+                    fill
+                    className={(pr.fit === "contain" ? "object-contain p-10" : pr.fit === "flush" ? "object-contain" : "object-cover") + " transition-transform duration-500 group-hover:scale-[1.03]"}
+                    unoptimized
+                  />
                 </div>
-                <p className="text-xs text-neutral-400 mb-2">UX Research · Usability Testing</p>
-                <h3 className="text-xl font-semibold mb-2">p5.js Usability Research</h3>
-                <p className="text-neutral-500 text-sm leading-relaxed">
-                  {lang === "en"
-                    ? "A moderated usability study conducted in partnership with the p5.js team to improve the reference page and code editor experience."
-                    : "与 p5.js 官方团队合作开展的可用性研究，提升参考页面与代码编辑器的用户体验。"}
-                </p>
+                <p style={{ fontFamily: "var(--font-geist-mono)" }} className="mt-4 text-[11px] tracking-wider uppercase text-neutral-400">{pr.tag}</p>
+                <h3 style={{ fontFamily: "var(--font-cormorant)" }} className="mt-1 text-2xl font-medium text-neutral-800">{pr.title}</h3>
+                <p className="mt-1 text-sm leading-relaxed text-neutral-500">{lang === "zh" ? pr.zh : pr.en}</p>
               </a>
             </FadeIn>
-            <FadeIn delay={100}>
-              <a href="/work/soccergoat" className="group p-8 rounded-2xl border border-neutral-100 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 cursor-none bg-white block">
-                <div className="w-full h-64 rounded-xl mb-6 overflow-hidden relative group-hover:brightness-105 transition-all">
-                  <Image src="/soccergoat-cover-v3.png" alt="SoccerGOAT" fill className="object-cover" />
-                </div>
-                <p className="text-xs text-neutral-400 mb-2">Mobile App · Product Design · UX Research</p>
-                <h3 className="text-xl font-semibold mb-2">SoccerGOAT</h3>
-                <p className="text-neutral-500 text-sm leading-relaxed">
-                  {lang === "en"
-                    ? "A soccer companion app and physical display device designed to bring North American fans closer to the beautiful game."
-                    : "一款足球伴侣应用与实体展示设备，让北美球迷与美丽的足球运动更近一步。"}
-                </p>
-              </a>
-            </FadeIn>
-            <FadeIn delay={200}>
-              <a href="/work/artflow" className="group p-8 rounded-2xl border border-neutral-100 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 cursor-none bg-white block">
-                <div className="w-full h-64 rounded-xl mb-6 overflow-hidden relative group-hover:brightness-105 transition-all">
-                  <Image src="/artflow/cover.png" alt="ArtFlow" fill className="object-cover" />
-                </div>
-                <p className="text-xs text-neutral-400 mb-2">UX Research · Usability Testing · QA</p>
-                <h3 className="text-xl font-semibold mb-2">ArtFlow</h3>
-                <p className="text-neutral-500 text-sm leading-relaxed">
-                  {lang === "en"
-                    ? "Systematic usability testing for Tencent Games' internal art asset platform — 100+ issues identified, 95% fix rate achieved."
-                    : "腾讯游戏内部美术资源平台的系统性可用性测试——识别 100+ 问题，95% 修复率。"}
-                </p>
-              </a>
-            </FadeIn>
-            <FadeIn delay={300}>
-              <a href="/work/art" className="group p-8 rounded-2xl border border-neutral-100 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 cursor-none bg-white block">
-                <div className="w-full h-64 rounded-xl mb-6 overflow-hidden relative group-hover:brightness-105 transition-all bg-neutral-50">
-                  <Image src="/art/cover.png" alt="My Art" fill className="object-contain p-4" />
-                </div>
-                <p className="text-xs text-neutral-400 mb-2">Fine Art · Acrylic · Watercolour</p>
-                <h3 className="text-xl font-semibold mb-2">My Art</h3>
-                <p className="text-neutral-500 text-sm leading-relaxed">
-                  {lang === "en"
-                    ? "A personal collection of acrylic and watercolour paintings exploring emotion, memory, and the places that shaped me."
-                    : "探索情感、记忆与成长之地的丙烯与水彩画作品集。"}
-                </p>
-              </a>
-            </FadeIn>
-            <FadeIn delay={400}>
-              <a href="/work/vozy" className="group p-8 rounded-2xl border border-neutral-100 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 cursor-none bg-white block">
-                <div className="w-full h-64 rounded-xl mb-6 overflow-hidden relative group-hover:brightness-105 transition-all">
-                  <Image src="/vozy/vozy cover.png" alt="Vozy" fill className="object-cover" unoptimized />
-                </div>
-                <p className="text-xs text-neutral-400 mb-2">Product Design · UX Research · Wearable</p>
-                <h3 className="text-xl font-semibold mb-2">Vozy</h3>
-                <p className="text-neutral-500 text-sm leading-relaxed">
-                  {lang === "en"
-                    ? "A wearable travel companion reducing anxiety and physical burden for independent travellers."
-                    : "减轻独立旅行者焦虑与负担的穿戴式旅行伴侣设备。"}
-                </p>
-              </a>
-            </FadeIn>
-            <FadeIn delay={500}>
-              <a href="/work/recoaster" className="group p-8 rounded-2xl border border-neutral-100 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 cursor-none bg-white block">
-                <div className="w-full h-64 rounded-xl mb-6 overflow-hidden relative group-hover:brightness-105 transition-all">
-                  <Image src="/recoaster/RC cover.png" alt="RE Coaster" fill className="object-cover" unoptimized />
-                </div>
-                <p className="text-xs text-neutral-400 mb-2">Product Design · Sustainability · Craft</p>
-                <h3 className="text-xl font-semibold mb-2">RE Coaster</h3>
-                <p className="text-neutral-500 text-sm leading-relaxed">
-                  {lang === "en"
-                    ? "A sustainable coaster crafted from recycled coffee grounds using woodworking, laser cutting and resin."
-                    : "以咖啡渣为原料，结合木工与树脂工艺制作的可持续杯垫。"}
-                </p>
-              </a>
-            </FadeIn>
-            <FadeIn delay={600}>
-              <a href="/work/peticx" className="group p-8 rounded-2xl border border-neutral-100 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 cursor-none bg-white block">
-                <div className="w-full h-64 rounded-xl mb-6 overflow-hidden relative group-hover:brightness-105 transition-all bg-neutral-100">
-                  <Image src="/peticx/px缩略图.png" alt="PeticX" fill className="object-contain p-4" unoptimized />
-                </div>
-                <p className="text-xs text-neutral-400 mb-2">Product Design · UX Research · Pet Care</p>
-                <h3 className="text-xl font-semibold mb-2">PeticX</h3>
-                <p className="text-neutral-500 text-sm leading-relaxed">
-                  {lang === "en"
-                    ? "A pet care product designed through end-to-end user research and iterative prototyping."
-                    : "通过端到端用户研究与迭代原型设计的宠物护理产品。"}
-                </p>
-              </a>
-            </FadeIn>
-            <FadeIn delay={700}>
-              <a href="/work/maskoff" className="group p-8 rounded-2xl border border-neutral-100 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 cursor-none bg-white block">
-                <div className="w-full h-64 rounded-xl mb-6 overflow-hidden relative group-hover:brightness-105 transition-all">
-                  <Image src="/maskoff/Maskoff cover.png" alt="Maskoff" fill className="object-cover" unoptimized />
-                </div>
-                <p className="text-xs text-neutral-400 mb-2">Brand Design · Product Design</p>
-                <h3 className="text-xl font-semibold mb-2">Maskoff</h3>
-                <p className="text-neutral-500 text-sm leading-relaxed">
-                  {lang === "en"
-                    ? "A face mask brand exploring identity and the tension between concealment and visibility."
-                    : "探索身份认同与隐藏和显露之间张力的口罩品牌设计。"}
-                </p>
-              </a>
-            </FadeIn>
-          </div>
+          ))}
         </div>
       </section>
 
