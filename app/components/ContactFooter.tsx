@@ -280,7 +280,6 @@ export function ContactFooter() {
   );
 }
 
-const MARQUEE = ["Let's create something together", "期待与你共同创造", "Creemos algo juntos", "함께 만들어요", "一緒に作ろう"];
 const ACCENTS = ["#FF6B35", "#ED225D", "#FFC93C", "#4ADE80", "#60A5FA"];
 
 function useClock(tz: string) {
@@ -299,26 +298,12 @@ function FunFooter() {
   const seattle = useClock("America/Los_Angeles");
   const beijing = useClock("Asia/Shanghai");
   const [clicks, setClicks] = useState(0);
-  const items = [...MARQUEE, ...MARQUEE];
 
   return (
     <footer className="overflow-hidden border-t border-white/10 cursor-none" style={{ backgroundColor: "#1C1917" }}>
       <style>{`
-        @keyframes footer-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         @keyframes footer-wave { 0%,100% { transform: rotate(0); } 25% { transform: rotate(18deg); } 75% { transform: rotate(-12deg); } }
       `}</style>
-
-      {/* Marquee */}
-      <div className="py-5 border-b border-white/10 overflow-hidden">
-        <div className="flex w-max whitespace-nowrap" style={{ animation: "footer-marquee 28s linear infinite" }}>
-          {items.map((text, i) => (
-            <span key={i} className="flex items-center text-2xl md:text-3xl font-light text-white/80">
-              {text}
-              <span className="mx-8 text-xl" style={{ color: ACCENTS[i % ACCENTS.length] }}>✦</span>
-            </span>
-          ))}
-        </div>
-      </div>
 
       <div className="max-w-5xl mx-auto px-6 pt-10">
         {/* Clocks + back to top */}
