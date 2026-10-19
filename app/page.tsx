@@ -122,31 +122,6 @@ const content: Record<LangKey, {
   },
 };
 
-// Magnetic button
-function MagneticButton({ children, className, href }: { children: ReactNode; className?: string; href: string }) {
-  const ref = useRef<HTMLAnchorElement>(null);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const onMove = (e: MouseEvent) => {
-      const rect = el.getBoundingClientRect();
-      const x = e.clientX - rect.left - rect.width / 2;
-      const y = e.clientY - rect.top - rect.height / 2;
-      el.style.transform = `translate(${x * 0.25}px, ${y * 0.25}px)`;
-    };
-    const onLeave = () => { el.style.transform = "translate(0, 0)"; };
-    el.addEventListener("mousemove", onMove);
-    el.addEventListener("mouseleave", onLeave);
-    return () => { el.removeEventListener("mousemove", onMove); el.removeEventListener("mouseleave", onLeave); };
-  }, []);
-  return (
-    <a ref={ref} href={href} className={className}
-      style={{ transition: "transform 0.3s cubic-bezier(0.23, 1, 0.32, 1), background 0.2s, border 0.2s" }}>
-      {children}
-    </a>
-  );
-}
-
 export default function Home() {
   const { lang } = useLanguage();
   const t = content[lang];
@@ -219,22 +194,6 @@ export default function Home() {
               </p>
             </FadeIn>
 
-            <FadeIn delay={360}>
-              <div className="flex gap-4">
-                <MagneticButton
-                  href="#work"
-                  className="px-6 py-3 bg-neutral-900 text-white text-sm rounded-full hover:bg-neutral-700"
-                >
-                  {t.hero.cta1}
-                </MagneticButton>
-                <MagneticButton
-                  href="#contact"
-                  className="px-6 py-3 border border-neutral-300 text-sm rounded-full hover:border-neutral-600 text-neutral-700"
-                >
-                  {t.hero.cta2}
-                </MagneticButton>
-              </div>
-            </FadeIn>
           </div>
 
           {/* Right — art */}

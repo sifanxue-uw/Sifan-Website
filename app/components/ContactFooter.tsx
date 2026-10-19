@@ -253,7 +253,6 @@ export function ContactFooter() {
   );
 }
 
-const ACCENTS = ["#FF6B35", "#ED225D", "#FFC93C", "#4ADE80", "#60A5FA"];
 
 function useClock(tz: string) {
   const [time, setTime] = useState("");
@@ -270,7 +269,6 @@ function useClock(tz: string) {
 function FunFooter() {
   const seattle = useClock("America/Los_Angeles");
   const beijing = useClock("Asia/Shanghai");
-  const [clicks, setClicks] = useState(0);
 
   return (
     <footer className="overflow-hidden border-t border-white/10 cursor-none" style={{ backgroundColor: "#1C1917" }}>
@@ -291,28 +289,6 @@ function FunFooter() {
               <p className="text-white text-lg font-mono tabular-nums">{beijing || "--:--:--"}</p>
             </div>
           </div>
-          <button
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="px-5 py-2.5 rounded-full border border-white/40 text-white text-xs font-semibold tracking-widest uppercase hover:bg-white hover:text-[#1C1917] transition-all cursor-none"
-          >
-            Back to top ↑
-          </button>
-        </div>
-
-        {/* Giant wordmark */}
-        <div
-          className="select-none text-center leading-none font-bold tracking-tight pt-10 pb-2 text-[17vw] md:text-[200px]"
-          onClick={() => setClicks((c) => c + 1)}
-        >
-          {"SIFAN XUE".split("").map((ch, i) => (
-            <span
-              key={i}
-              className="inline-block transition-all duration-300 text-white/25 hover:text-[var(--c)] hover:-translate-y-3"
-              style={{ ["--c" as string]: ACCENTS[(i + clicks) % ACCENTS.length], whiteSpace: "pre" }}
-            >
-              {ch}
-            </span>
-          ))}
         </div>
 
         {/* Bottom line */}
@@ -320,7 +296,6 @@ function FunFooter() {
           <p className="text-white/60 text-xs tracking-widest uppercase">© 2026 Sifan Xue</p>
           <p className="text-white/40 text-xs">
             Designed & built by Sifan <span className="inline-block origin-bottom" style={{ animation: "footer-wave 2.4s ease-in-out infinite" }}>👋</span>
-            {clicks > 0 && <span className="ml-3 text-white/30">{clicks >= 5 ? "okay okay, you found the party mode 🎉" : "psst — keep clicking the name"}</span>}
           </p>
         </div>
       </div>
