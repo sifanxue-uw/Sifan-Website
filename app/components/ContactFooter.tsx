@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLanguage } from "@/app/context/language";
 
 const text = {
@@ -92,18 +92,63 @@ function CopyItem({ value, label, copiedLabel }: { value: string; label: string;
   );
 }
 
+const GRASS = "#8FBF6A";
 const TUFTS = [
-  { x: "6%", y: "64%", g: "(*)\n>\\", c: "#D4E27A" },
-  { x: "17%", b: "14px", g: "v\nY\n^^^^^", c: "#9CC4F0" },
-  { x: "29%", y: "70%", g: "|\n^^^", c: "#E8768A" },
-  { x: "41%", b: "10px", g: "\\ |/", c: "#B7D96B" },
-  { x: "53%", y: "62%", g: "^^^", c: "#D4E27A" },
-  { x: "64%", b: "18px", g: "..", c: "#E8768A" },
-  { x: "73%", b: "8px", g: "v\nY\n^^^^^", c: "#9CC4F0" },
-  { x: "84%", y: "56%", g: "\\ |/", c: "#B7D96B" },
-  { x: "93%", b: "12px", g: "(*)\n>\\", c: "#D4E27A" },
-  { x: "96%", y: "40%", g: "..", c: "#E8768A" },
+  { x: "9%", y: "66%", g: "^^^", c: GRASS },
+  { x: "22%", b: "22px", g: "\\ |/", c: GRASS },
+  { x: "36%", y: "74%", g: "^^^", c: GRASS },
+  { x: "47%", b: "16px", g: "\\|/", c: GRASS },
+  { x: "58%", y: "58%", g: "^^^", c: GRASS },
+  { x: "66%", b: "30px", g: "\\ |/", c: GRASS },
+  { x: "84%", y: "60%", g: "\\ |/", c: GRASS },
+  { x: "90%", b: "20px", g: "^^^", c: GRASS },
+  { x: "95%", y: "44%", g: "\\|/", c: GRASS },
 ];
+
+function MuLogo() {
+  const ref = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const img = new window.Image();
+    img.onload = () => {
+      const w = img.naturalWidth;
+      const h = img.naturalHeight;
+      const full = document.createElement("canvas");
+      full.width = w;
+      full.height = h;
+      const ctx = full.getContext("2d");
+      if (!ctx) return;
+      ctx.drawImage(img, 0, 0);
+      const data = ctx.getImageData(0, 0, w, h);
+      const px = data.data;
+      const br = px[0], bg = px[1], bb = px[2];
+      let minX = w, minY = h, maxX = 0, maxY = 0;
+      for (let y = 0; y < h; y++) {
+        for (let x = 0; x < w; x++) {
+          const i = (y * w + x) * 4;
+          const d = Math.max(Math.abs(px[i] - br), Math.abs(px[i + 1] - bg), Math.abs(px[i + 2] - bb));
+          const a = Math.min(1, Math.max(0, (d - 6) / 18));
+          px[i + 3] = Math.round(px[i + 3] * a);
+          if (a > 0.5) {
+            if (x < minX) minX = x;
+            if (x > maxX) maxX = x;
+            if (y < minY) minY = y;
+            if (y > maxY) maxY = y;
+          }
+        }
+      }
+      ctx.putImageData(data, 0, 0);
+      const out = ref.current;
+      if (!out || maxX <= minX) return;
+      out.width = maxX - minX + 1;
+      out.height = maxY - minY + 1;
+      out.getContext("2d")?.drawImage(full, minX, minY, out.width, out.height, 0, 0, out.width, out.height);
+    };
+    img.src = "/mu-logo.png";
+  }, []);
+
+  return <canvas ref={ref} aria-hidden style={{ height: 132, width: "auto", display: "block" }} />;
+}
 
 const KICKOFF_X = "72%";
 
@@ -149,8 +194,8 @@ function Pitch() {
           opacity: hot ? 1 : 0,
         }}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/mu-logo.png" alt="" width={104} height={104} className="block rounded-t-xl" />
+        <MuLogo />
+        <p style={{ fontFamily: "var(--font-geist-mono)" }} className="mt-2 mb-4 text-[12px] font-medium tracking-[0.35em] uppercase text-[#E5202E]">GGMU</p>
       </div>
 
       {TUFTS.map((t, i) => (
@@ -176,7 +221,7 @@ export function ContactFooter() {
   return (
     <footer
       id="contact"
-      className="relative overflow-hidden px-6 pt-20 pb-24"
+      className="relative overflow-hidden px-6 pt-20 pb-48"
       style={{ backgroundColor: "#1C1917", ...mono }}
     >
       <Pitch />
