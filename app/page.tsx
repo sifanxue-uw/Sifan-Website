@@ -225,19 +225,20 @@ export default function Home() {
 
           </div>
 
-          {/* Right — art */}
+          {/* Right — colour block */}
           <FadeIn delay={200}>
-            <div className="flex justify-center items-center -mr-8 md:-mr-16 bg-[#F8F7F4]">
-              <Image
-                src="/art/cover.png"
-                alt="Sifan Xue"
-                width={700}
-                height={700}
-                className="w-full object-contain"
-                style={{ mixBlendMode: "multiply" }}
-                unoptimized
-                priority
-              />
+            <div className="flex justify-center md:justify-end">
+              <div
+                className="relative w-full max-w-[380px] aspect-[4/5] flex items-end justify-end p-7"
+                style={{ backgroundColor: "#C8321E" }}
+              >
+                <p
+                  className="text-right font-extrabold uppercase leading-[0.9] tracking-tight text-[#1C1917] select-none"
+                  style={{ fontFamily: "var(--font-geist-sans)", fontSize: "clamp(40px, 5.2vw, 60px)" }}
+                >
+                  Sifan<br />Xue
+                </p>
+              </div>
             </div>
           </FadeIn>
 

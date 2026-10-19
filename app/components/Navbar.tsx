@@ -8,17 +8,17 @@ export function LangSwitcher() {
   const { lang, setLang } = useLanguage();
 
   return (
-    <div className="flex items-center rounded-full bg-[#F3F1EC] p-1 ml-1" role="group" aria-label="Language">
+    <div className="flex items-center border-l border-neutral-900/15 ml-1 pl-1" role="group" aria-label="Language">
       {languages.map((l) => (
         <button
           key={l.key}
           onClick={() => setLang(l.key)}
           aria-pressed={lang === l.key}
           style={{ fontFamily: "var(--font-geist-mono)" }}
-          className={`cursor-none rounded-full px-3 py-1.5 text-[11px] font-medium tracking-wider transition-all ${
+          className={`cursor-none px-3 py-2 text-[11px] font-medium tracking-wider transition-colors ${
             lang === l.key
-              ? "bg-white text-neutral-900 shadow-sm"
-              : "text-neutral-400 hover:text-neutral-900"
+              ? "bg-[#1C1917] text-white"
+              : "text-neutral-500 hover:text-neutral-900"
           }`}
         >
           {l.code}
@@ -51,15 +51,15 @@ export function Navbar(_props: NavbarProps) {
 
   return (
     <nav className="fixed top-6 left-0 w-full z-50 flex justify-center px-4 pointer-events-none">
-      <div className="pointer-events-auto flex items-center gap-2 px-3 py-2.5">
+      <div className="pointer-events-auto flex items-center gap-1 p-1.5 bg-white/90 backdrop-blur-md border border-neutral-900/80">
         {links.map(({ href, label, active }) => (
           <Link
             key={href}
             href={href}
             style={{ fontFamily: "var(--font-geist-mono)" }}
-            className={`transition-colors cursor-none w-[112px] py-2 text-center rounded-full text-[12px] font-medium tracking-wider uppercase ${
+            className={`transition-colors cursor-none w-[112px] py-2 text-center text-[12px] font-medium tracking-wider uppercase ${
               active
-                ? "bg-[#F3F1EC] text-neutral-900"
+                ? "bg-[#1C1917] text-white"
                 : "text-neutral-500 hover:text-neutral-900"
             }`}
           >
