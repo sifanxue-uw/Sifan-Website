@@ -111,7 +111,7 @@ export function Navbar({ nav, activeHref }: NavbarProps) {
             {lang === "zh" ? "薛斯凡" : "Sifan Xue"}
           </span>
         </Link>
-        <div className="flex items-center gap-8 text-sm font-medium tracking-widest uppercase text-neutral-500">
+        <div className="flex items-center gap-8">
           {links.map(({ href, label, key }) => {
             let isActive = false;
             if (key === "about") {
@@ -123,10 +123,11 @@ export function Navbar({ nav, activeHref }: NavbarProps) {
               <Link
                 key={href}
                 href={href}
-                className={`transition-all cursor-none px-4 py-1.5 rounded-full text-xs font-semibold tracking-widest uppercase ${
+                style={{ fontFamily: "var(--font-nav)" }}
+                className={`transition-colors cursor-none px-2 py-1.5 text-[15px] font-normal tracking-wide lowercase ${
                   isActive
-                    ? "bg-neutral-800 text-white"
-                    : "text-neutral-500 hover:text-neutral-900"
+                    ? "text-neutral-900"
+                    : "text-neutral-400 hover:text-neutral-900"
                 }`}
               >
                 {label}
