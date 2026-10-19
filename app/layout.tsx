@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   title: "Sifan Xue",
   description: "Portfolio of Sifan Xue, UX Designer",
   icons: {
-    icon: "/logo-transparent.png",
+    icon: "/favicon-logo.png?v=2",
   },
 };
 
