@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useLanguage, type LangKey } from "@/app/context/language";
 
@@ -118,7 +117,6 @@ const content: Record<LangKey, {
 export function ContactFooter() {
   const { lang } = useLanguage();
   const t = content[lang];
-  const [imgError, setImgError] = useState(false);
 
   return (
     <>
@@ -142,33 +140,8 @@ export function ContactFooter() {
             </h2>
           </div>
 
-          {/* Bottom — photo + info */}
+          {/* Bottom — info */}
           <div className="flex flex-col md:flex-row md:items-start gap-10">
-
-            {/* Photo */}
-            <div className="flex-shrink-0 md:w-52">
-              <div className="w-full aspect-[3/4] rounded-2xl overflow-hidden border border-white/10 bg-white/5 flex items-center justify-center">
-                {!imgError ? (
-                  <Image
-                    src="/contact-photo.jpg"
-                    alt={t.photoAlt}
-                    width={208}
-                    height={277}
-                    className="w-full h-full object-cover"
-                    onError={() => setImgError(true)}
-                    unoptimized
-                  />
-                ) : (
-                  <div className="flex flex-col items-center gap-3 text-white/20">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
-                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                      <circle cx="12" cy="7" r="4"/>
-                    </svg>
-                    <p className="text-xs tracking-widest uppercase">Photo</p>
-                  </div>
-                )}
-              </div>
-            </div>
 
             {/* Right — sub + resume + contact grid */}
             <div className="flex-1 flex flex-col gap-8">
