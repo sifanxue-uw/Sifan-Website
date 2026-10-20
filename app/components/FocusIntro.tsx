@@ -42,7 +42,7 @@ export function FocusIntro() {
               key={i}
               onMouseEnter={s.k ? () => setActive(i) : undefined}
               onClick={s.k ? () => setActive((a) => (a === i ? null : i)) : undefined}
-              className={s.k ? "cursor-none" : undefined}
+              className={s.k ? "cursor-none whitespace-nowrap" : undefined}
               style={{
                 color: isActive ? "#1C1917" : "#44403C",
                 fontWeight: isActive ? 500 : 400,
